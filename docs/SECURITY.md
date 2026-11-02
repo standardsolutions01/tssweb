@@ -40,7 +40,7 @@
 | ☐ | Action |
 |---|---|
 | ☐ | Use a **password manager** (e.g. Bitwarden, 1Password) and a **unique** password for every account |
-| ☐ | Turn on **2FA with an authenticator app or passkey** (not SMS if avoidable) for: **GitHub**, **Cloudflare**, **Google account (tss01@gmail.com)**, **domain registrar**, **WhatsApp** |
+| ☐ | Turn on **2FA with an authenticator app or passkey** (not SMS if avoidable) for: **GitHub**, **Cloudflare**, **Google account (thestandardsolutions01@gmail.com)**, **domain registrar**, **WhatsApp** |
 | ☐ | Save each account's **recovery codes** offline (printed or in the password manager) |
 
 ### 2. GitHub (`github.com/standardsolutions01/tssweb` → Settings)
@@ -60,7 +60,7 @@
 | ☐ | **Domain auto-renew ON** and **registrar lock ON** (wherever the domain was bought) |
 | ☐ | **Stop email spoofing:** while no `@thestandardsolutions.com` mailbox exists, add two DNS TXT records — Name `@`, Content `v=spf1 -all` and Name `_dmarc`, Content `v=DMARC1; p=reject;` (⚠️ change these if you later set up domain email) |
 
-### 4. Google (tss01@gmail.com)
+### 4. Google (thestandardsolutions01@gmail.com)
 | ☐ | Action |
 |---|---|
 | ☐ | 2-Step Verification on; run Google's **Security Checkup** |

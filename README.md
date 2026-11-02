@@ -79,11 +79,12 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
     │   ├── services/         ← ★ one file per service page (all text, FAQs)
     │   └── testimonials.ts   ← client quotes (hidden until approved)
     ├── content/blog/         ← ★ blog posts (Markdown)
-    ├── content.config.ts     ← blog post fields
+    ├── content/policies/     ← ★ Terms, Privacy, Refund, Complaints (owner's approved wording)
+    ├── content.config.ts     ← blog & policy fields
     ├── layouts/              ← page templates (Base, Service, Policy)
     ├── components/           ← header, footer, buttons, FAQ, etc.
     ├── lib/schema.ts         ← Google structured data
-    └── pages/                ← one file per URL (index, about, pricing, contact, privacy, terms, blog…)
+    └── pages/                ← one file per URL (index, about, pricing, contact, policies, blog…)
                                 [service].astro generates all six service pages
 ```
 

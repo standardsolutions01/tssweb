@@ -25,7 +25,7 @@
 ## A3. Business details (single source of truth: `src/config/site.ts`)
 | Item | Value |
 |---|---|
-| Public email | `tss01@gmail.com` (personal Gmail must NOT appear anywhere) |
+| Public email | `thestandardsolutions01@gmail.com` (personal Gmail and the earlier `tss01@` address must NOT appear anywhere) |
 | WhatsApp / phone | +92 324 344 8929 (the old 0336 number must NOT appear anywhere) |
 | Public location | Islamabad, Pakistan (**full address only on Privacy/Terms pages**) |
 | Full address (policies only) | 76-B, Street 19, Gulzar-e-Quaid, Rawalpindi, Pakistan |
@@ -46,7 +46,8 @@
 - **Contact:** no embedded form / form endpoint. Buttons link to the Google Form, Google Calendar, WhatsApp and email.
 - **About page:** written from the **company's perspective**, with a short leadership section for the founder's credentials.
 - **Testimonials:** stored in `src/data/testimonials.ts` with `approved: false`. The section is hidden until at least one real, client-approved quote is set to `approved: true`.
-- **Policies:** Privacy Policy and Terms of Service drafted for TSS. Owner's existing policy text lives at `thestandardsolutions-fsqatz2.gamma.site/consultant` — if the owner supplies that text, replace the drafts with it (it should not change afterwards).
+- **Policies:** Terms of Service, Privacy Policy, Refund Policy and Complaints Handling & Service Delivery come **word for word from the owner's "Policy and Guidelines" document** (`src/content/policies/`). Do not reword them. Only changes made: contact details are tokens (`{{EMAIL}}` etc.) so they match `site.ts`; the old 0336 number became the WhatsApp number; cross-references link to the other policy pages; and the Australia tax line was aligned with rule A6 (bookkeeping & advisory only).
+- **Client count:** "140+ clients" is confirmed by the owner (`SITE.clientsServed`). Do not use any other figure.
 
 ## A6. Compliance wording (strict — enforced automatically)
 - ❌ Never use "Chartered", "Chartered Accountants", "ACCA", "ICAEW", "CIMA" about TSS or the founder. (`scripts/post-build-checks.mjs` fails the build if these appear.)
@@ -127,7 +128,7 @@ Banned wording · broken internal links · exactly one H1 per page · title ≤ 
 | About | `/about/` |
 | Contact | `/contact/` |
 | Blog (index + posts) | `/blog/` |
-| Privacy Policy / Terms | `/privacy/`, `/terms/` |
+| Privacy Policy / Terms | `/privacy/`, `/terms/` (plus `/refund-policy/`, `/complaints/`) |
 
 **Each service page:** hero → who it's for → what's included → process → pricing → FAQs (5+) → call to action → related services.
 

@@ -1,20 +1,67 @@
 ---
-/** Layout for legal pages (Privacy Policy, Terms of Service). */
+/**
+ * Layout for legal pages (Terms, Privacy, Refund, Complaints).
+ * The wording comes from src/content/policies/<id>.md.
+ * Tokens such as {{EMAIL}} are replaced with the details in src/config/site.ts.
+ * The effective date is LEGAL.policiesLastUpdated in src/config/site.ts.
+ */
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { LEGAL } from '../config/site';
-interface Props { title: string; description: string; path: string; }
-const { title, description, path } = Astro.props;
+import { getEntry } from 'astro:content';
+import { CONTACT, LEGAL } from '../config/site';
+
+interface Props { id: 'terms' | 'privacy' | 'refund-policy' | 'complaints'; }
+const { id } = Astro.props;
+const entry = await getEntry('policies', id);
+if (!entry) throw new Error(`Policy "${id}" not found in src/content/policies/`);
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const tokens: Record<string, string> = {
+  '{{EMAIL}}': `<a href="mailto:${esc(CONTACT.email)}">${esc(CONTACT.email)}</a>`,
+  '{{PHONE}}': esc(CONTACT.phoneDisplay),
+  '{{ADDRESS}}': esc(LEGAL.fullAddress),
+  '{{PRINCIPAL}}': esc(LEGAL.proprietor),
+};
+let html = entry.rendered?.html ?? '';
+for (const [token, value] of Object.entries(tokens)) html = html.split(token).join(value);
+if (/\{\{[A-Z]+\}\}/.test(html)) throw new Error(`Unknown {{TOKEN}} left in policy "${id}"`);
+
+const path = `/${id}/`;
+const { title, seoTitle, description } = entry.data;
 const crumbs = [{ name: 'Home', href: '/' }, { name: title, href: path }];
+const others = [
+  { href: '/terms/', label: 'Terms of Service' },
+  { href: '/privacy/', label: 'Privacy Policy' },
+  { href: '/refund-policy/', label: 'Refund Policy' },
+  { href: '/complaints/', label: 'Complaints & Service Delivery' },
+].filter((o) => o.href !== path);
 ---
-<BaseLayout title={title} description={description} breadcrumbs={crumbs}>
+<BaseLayout title={seoTitle ?? title} description={description} breadcrumbs={crumbs}>
   <section class="section">
     <div class="container narrow">
       <Breadcrumbs items={crumbs} />
       <h1>{title}</h1>
-      <p class="updated">Last updated: {LEGAL.policiesLastUpdated}</p>
-      <div class="prose"><slot /></div>
+      <p class="updated">Effective date: {LEGAL.policiesLastUpdated}</p>
+      <div class="prose" set:html={html} />
+
+      <aside class="who" aria-label="Business details">
+        <p><strong>{LEGAL.tradingName}</strong> — {LEGAL.entityType}, registration no. {LEGAL.registrationNumber}</p>
+        <p>{LEGAL.fullAddress}</p>
+        <p><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phoneDisplay}</p>
+      </aside>
+
+      <nav class="others" aria-label="Other policies">
+        <p class="label">Other policies</p>
+        <ul>{others.map((o) => <li><a href={o.href}>{o.label}</a></li>)}</ul>
+      </nav>
     </div>
   </section>
 </BaseLayout>
-<style>.updated { color: var(--brand-grey); margin-bottom: 32px; }</style>
+<style>
+  .updated { color: var(--brand-grey); margin-bottom: 32px; }
+  .who { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--ink-soft); }
+  .who p { margin: 0 0 4px; }
+  .others { margin-top: 32px; }
+  .others .label { font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--brand-grey); font-weight: 600; margin-bottom: 8px; }
+  .others ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+</style>

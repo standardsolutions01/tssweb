@@ -24,11 +24,14 @@ export const SITE = {
   description:
     'Company formation, bookkeeping and finance support for founders in the UK, US, UAE, Australia and Pakistan — one partner from registration to reporting.',
   locale: 'en_GB',
+  /** Headline figures — only use numbers the owner has confirmed */
+  clientsServed: '140+',
+  yearsExperience: '8+',
 };
 
 export const CONTACT = {
   /** Public email — shown on the site and in the policies */
-  email: 'tss01@gmail.com',
+  email: 'thestandardsolutions01@gmail.com',
   /** WhatsApp / phone number as people should SEE it */
   phoneDisplay: '+92 324 344 8929',
   /** Same number for links: digits only, with country code, no "+" or spaces */
@@ -47,8 +50,8 @@ export const LEGAL = {
   entityType: 'sole proprietorship',
   proprietor: 'Syed M. Armagham Zia',
   registrationNumber: 'D483246-0',
-  fullAddress: '76-B, Street 19, Gulzar-e-Quaid, Rawalpindi, Pakistan',
-  /** Shown as "Last updated" on the policies — change when policies change */
+  fullAddress: '76-B, Street 19, Gulzar e Quaid, Rawalpindi, Pakistan',
+  /** Shown as "Effective date" on the policies — change when policies change */
   policiesLastUpdated: '2 November 2026',
 };
 

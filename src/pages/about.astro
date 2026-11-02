@@ -60,7 +60,7 @@ const platforms = ['Xero', 'QuickBooks Online', 'Zoho Books', 'MYOB', 'FreshBook
       <div>
         <p class="eyebrow">Expertise</p>
         <h2>Standards and requirements we work with</h2>
-        <p class="muted">Our team brings more than eight years of experience across audit, accounts payable, payroll, financial reporting and outsourced accounting for international clients.</p>
+        <p class="muted">Our team brings {SITE.yearsExperience} years of experience across audit, accounts payable, payroll, financial reporting and outsourced accounting, and has served {SITE.clientsServed} clients in the UK, US, UAE, Australia and Pakistan.</p>
       </div>
       <ul class="ticks ticks--2col">{expertise.map((e) => <li>{e}</li>)}</ul>
     </div>
@@ -89,7 +89,7 @@ const platforms = ['Xero', 'QuickBooks Online', 'Zoho Books', 'MYOB', 'FreshBook
           <li>Certified Xero Advisor</li>
           <li>Advanced QuickBooks Online ProAdvisor</li>
           <li>Financial Modelling &amp; Valuation Analyst (FMVA) — in progress, Corporate Finance Institute</li>
-          <li>8+ years serving UK, US, UAE, Australian and Pakistani clients</li>
+          <li>{SITE.yearsExperience} years of experience · {SITE.clientsServed} clients served across five countries</li>
         </ul>
       </div>
     </div>
@@ -108,5 +108,5 @@ const platforms = ['Xero', 'QuickBooks Online', 'Zoho Books', 'MYOB', 'FreshBook
   .two-col { display: grid; gap: 28px; }
   @media (min-width: 860px) { .two-col { grid-template-columns: 1fr 1.4fr; align-items: start; } }
   .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-  .chips li { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-weight: 500; }
+  .chips li { border: 1px solid #c9ced6; border-radius: 999px; padding: 7px 16px; font-weight: 500; }
 </style>

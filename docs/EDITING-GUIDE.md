@@ -21,7 +21,8 @@
 | Home page text | `src/pages/index.astro` | 5 min |
 | About page | `src/pages/about.astro` | 5 min |
 | Pricing page | `src/pages/pricing.astro` | 5 min |
-| Privacy Policy / Terms | `src/pages/privacy.astro` / `src/pages/terms.astro` (+ update `LEGAL.policiesLastUpdated`) | 10 min |
+| Terms, Privacy, Refund, Complaints policies | `src/content/policies/*.md` (+ update `LEGAL.policiesLastUpdated`). Contact details are tokens like `{{EMAIL}}` — they fill in automatically | 10 min |
+| "140+ clients" / "8+ years" figures | `src/config/site.ts` → `SITE.clientsServed` / `yearsExperience` | 1 min |
 | Add a testimonial | `src/data/testimonials.ts` | 2 min |
 | Add a blog post | new file in `src/content/blog/` | 15 min+ |
 | Logo | replace files in `public/images/` (keep the same names) | 5 min |

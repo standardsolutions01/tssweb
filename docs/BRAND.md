@@ -12,7 +12,7 @@
 | Tagline | *Simplifying your finances — one ledger at a time* |
 | One-line description | Company formation, bookkeeping and finance support — one partner from registration to reporting. |
 | Website | thestandardsolutions.com |
-| Email | tss01@gmail.com |
+| Email | thestandardsolutions01@gmail.com |
 | WhatsApp | +92 324 344 8929 |
 | Location | Islamabad, Pakistan |
 | Markets | United Kingdom (primary) · UAE · Australia · United States · Pakistan |
@@ -60,6 +60,7 @@ Rules: keep clear space around the logo; don't stretch, recolour, add shadows or
 - Certified Xero Advisor
 - Advanced QuickBooks Online ProAdvisor
 - 8+ years serving UK, US, UAE, Australian and Pakistani clients
+- 140+ clients served (use exactly this figure)
 
 ## Voice
 Plain English · confident, not salesy · short sentences · UK spelling · explain, don't jargon.

@@ -131,7 +131,7 @@ const related = s.related.map(getService).filter(Boolean) as Service[];
   .two-col { display: grid; gap: 28px; }
   @media (min-width: 860px) { .two-col { grid-template-columns: 1fr 1.4fr; align-items: start; } }
   .price-box {
-    border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(24px, 4vw, 44px);
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); padding: clamp(28px, 4vw, 44px) 0;
     display: grid; gap: 24px; align-items: center;
   }
   @media (min-width: 860px) { .price-box { grid-template-columns: 1.4fr 1fr; } }

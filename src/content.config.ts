@@ -1,5 +1,5 @@
 /**
- * Blog posts live in src/content/blog/ as Markdown (.md) files.
+ * BLOG — blog posts live in src/content/blog/ as Markdown (.md) files.
  * The file name becomes the URL: my-post.md → /blog/my-post/
  * Every post must start with the "frontmatter" fields below.
  */
@@ -27,4 +27,19 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+/**
+ * Policies (Terms, Privacy, Refund, Complaints) live in src/content/policies/.
+ * They are the owner's approved wording — edit with care.
+ * Contact details are written as tokens so they always match src/config/site.ts:
+ *   {{EMAIL}}  {{PHONE}}  {{ADDRESS}}  {{PRINCIPAL}}
+ */
+const policies = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/policies' }),
+  schema: z.object({
+    title: z.string(),
+    seoTitle: z.string().optional(),
+    description: z.string().max(155),
+  }),
+});
+
+export const collections = { blog, policies };
