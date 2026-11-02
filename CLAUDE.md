@@ -34,12 +34,13 @@
 | Enquiry form | Google Form — always opens in a new tab (owner edits the form in Google) |
 | Social links | None yet (website only) |
 
-## A4. Design decisions (override Part B §7)
-- **Colours from the logo** (not navy/gold): blue `#004AAD`, red `#FF3131` (accents only, never body text), grey `#737373`. Minimalist, white, lots of space.
-- **Font: Aptos** (from the letterhead). Aptos cannot legally be self-hosted, so the CSS uses Aptos when installed on the visitor's device and falls back to **Albert Sans** (free, self-hosted look-alike).
-- All colours and fonts are CSS variables in `src/styles/global.css` (`:root` block) — changing them is a ~2-minute job.
-- Logo files supplied by owner: originals in `brand/`, web versions in `public/images/`.
-- References for style: planetaryscale.co (minimal, US) and propactglobal.com (UK service structure).
+## A4. Design — follow `DESIGN.md` (owner's layout & design brief, 2 Nov 2026)
+- **`DESIGN.md` is the design source of truth** and overrides Part B §7. Calm, cosy, minimal; light and white.
+- Colours: blue `#004AAD`, red `#FF3131` (thin accents only — never text or buttons), grey `#737373`, ink `#16191F`, light grey `#F6F7F9`, deep navy `#0D1B2E` (footer only).
+- **One font: Albert Sans** (self-hosted), weights 400/500/600. Body 18px / 1.7.
+- All tokens are CSS variables in `src/styles/global.css` (`:root` block) — changing them is a ~2-minute job.
+- Logo: header uses the owner's full logo (wordmark crop `public/images/logo-header.webp`); footer uses a white text wordmark; originals in `brand/`.
+- **Phasing:** Phase 1 (global components + Home) awaits owner approval. Phase 2 applies the templates to all other pages (service template, Fees & Process, How it works, Insights, Article, Contact form, About, 404).
 
 ## A5. Content decisions (override Part B §3, §8)
 - **Pricing:** every service shows **"Contact for pricing"** — no `[PRICE]` placeholders.
@@ -59,14 +60,15 @@
 - ✅ Blog posts: no unverified fees or legal claims — say "check current fees on the official site".
 
 ## A7. Security rules
-- The site runs **zero JavaScript** and loads nothing from other websites. Keep it that way unless there is a strong reason.
+- The site loads **nothing from other websites**. Only small self-hosted scripts run (`src/scripts/`: search, header shrink, fade-up, floating WhatsApp). The site must still work if they fail.
+- No inline `<script>` or `style=""` (enforced by the build). CSP allows `'wasm-unsafe-eval'` only for Pagefind search.
 - Strict security headers live in `public/_headers`. Any new third-party tool must be added to the Content-Security-Policy deliberately.
 - Every external link opens in a new tab with `rel="noopener noreferrer"` (use `src/components/ExternalLink.astro`; enforced by the build checks).
 - Pin exact dependency versions; Dependabot raises update PRs; GitHub Actions builds every push.
 - See `docs/SECURITY.md` for the full list, including what the owner should do on their accounts.
 
 ## A8. Automatic checks (run on every build — Cloudflare won't publish if they fail)
-Banned wording · broken internal links · exactly one H1 per page · title ≤ 60 chars · description ≤ 155 chars · external links open in a new tab safely · warning for visible `[PLACEHOLDER]` text.
+Banned wording · broken internal links · exactly one H1 per page · title ≤ 60 chars · description ≤ 155 chars · external links open in a new tab safely · no inline scripts/styles · warning for visible `[PLACEHOLDER]` text. The build also creates the Pagefind search index.
 
 ---
 

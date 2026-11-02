@@ -16,6 +16,8 @@ const blog = defineCollection({
     seoTitle: z.string().optional(),
     /** Google description — max 155 characters */
     description: z.string().max(155),
+    /** Category shown on cards and used for the Insights filter */
+    category: z.enum(['Formation', 'Bookkeeping', 'CFO', 'Pakistan']),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     /** true = hidden from the site */

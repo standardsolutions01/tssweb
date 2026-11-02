@@ -31,6 +31,7 @@ const related = s.related.map(getService).filter(Boolean) as Service[];
   description={s.seoDescription}
   breadcrumbs={crumbs}
   schema={[serviceSchema(s), faqSchema(s.faqs)]}
+  searchable
 >
   <section class="hero section">
     <div class="container">
@@ -106,7 +107,7 @@ const related = s.related.map(getService).filter(Boolean) as Service[];
 
   <CtaBand title={`Talk to us about ${s.name}`} />
 
-  <section class="section">
+  <section class="section" data-pagefind-ignore>
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Related services</p>

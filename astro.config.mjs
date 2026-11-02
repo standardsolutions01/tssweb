@@ -13,6 +13,13 @@ export default defineConfig({
     // Content-Security-Policy in public/_headers can block inline code.
     inlineStylesheets: 'never',
   },
+  vite: {
+    build: {
+      // Never inline scripts or files into the HTML — the Content-Security-Policy
+      // only allows our own script FILES, not inline code.
+      assetsInlineLimit: 0,
+    },
+  },
   integrations: [
     sitemap({
       // Keep the 404 page out of the sitemap.

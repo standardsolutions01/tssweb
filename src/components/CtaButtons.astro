@@ -1,18 +1,14 @@
 ---
 /**
- * The two main call-to-action buttons used across the site:
- * "Book a Free Consultation" (Google Calendar) and "Chat on WhatsApp".
+ * The two main buttons (never more than two side by side):
+ * "Book a Free Consultation" (solid blue) + "Chat on WhatsApp" (outline).
  * Both open in a new tab.
  */
 import ExternalLink from './ExternalLink.astro';
 import Icon from './Icon.astro';
 import { LINKS, whatsappUrl } from '../config/site';
-interface Props { variant?: 'default' | 'dark'; }
-const { variant = 'default' } = Astro.props;
-const primary = variant === 'dark' ? 'btn btn--light' : 'btn btn--primary';
-const secondary = variant === 'dark' ? 'btn btn--ghost-light' : 'btn btn--outline';
 ---
 <div class="btn-row">
-  <ExternalLink href={LINKS.booking} class={primary}><Icon name="calendar" />Book a Free Consultation</ExternalLink>
-  <ExternalLink href={whatsappUrl} class={secondary}><Icon name="whatsapp" />Chat on WhatsApp</ExternalLink>
+  <ExternalLink href={LINKS.booking} class="btn btn--primary"><Icon name="calendar" />Book a Free Consultation</ExternalLink>
+  <ExternalLink href={whatsappUrl} class="btn btn--outline"><Icon name="whatsapp" />Chat on WhatsApp</ExternalLink>
 </div>

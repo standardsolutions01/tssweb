@@ -1,27 +1,26 @@
 ---
-/** Dark call-to-action band shown near the bottom of most pages. */
+/** Closing call-to-action: centred, light-grey band (DESIGN.md §6.10). */
 import CtaButtons from './CtaButtons.astro';
 interface Props { title?: string; text?: string; }
 const {
-  title = 'Ready to get your finances in order?',
-  text = 'Book a free, no-obligation consultation. We will listen, ask the right questions and tell you honestly how we can help.',
+  title = "Not sure where to start? Let's talk.",
+  text = 'A free, no-obligation consultation. We will listen, ask the right questions and tell you honestly how we can help.',
 } = Astro.props;
 ---
-<section class="cta-band">
+<section class="cta-band section" data-pagefind-ignore>
   <div class="container center">
     <h2>{title}</h2>
     <p class="lead">{text}</p>
-    <CtaButtons variant="dark" />
+    <CtaButtons />
   </div>
 </section>
 <style>
-  .cta-band { background: var(--brand-blue); color: #fff; padding: clamp(56px, 8vw, 88px) 0; position: relative; overflow: hidden; }
-  .cta-band::after {
-    content: ''; position: absolute; width: 420px; height: 420px; right: -140px; bottom: -220px;
-    border-radius: 50%; border: 3px solid transparent; border-top-color: var(--brand-red); border-left-color: var(--brand-red);
-    transform: rotate(20deg); opacity: .9; pointer-events: none;
+  .cta-band { background: var(--light-grey); position: relative; overflow: hidden; }
+  .cta-band::before {
+    content: ''; position: absolute; width: 360px; height: 360px; left: -180px; top: -200px; border-radius: 50%;
+    border: 1px solid transparent; border-bottom-color: var(--tss-red); border-right-color: var(--tss-red);
+    transform: rotate(10deg); pointer-events: none;
   }
-  .cta-band h2 { color: #fff; }
-  .cta-band .lead { color: rgba(255,255,255,.85); }
-  .cta-band .container { position: relative; z-index: 1; }
+  .cta-band .container { position: relative; }
+  .cta-band h2 { margin-bottom: 16px; }
 </style>

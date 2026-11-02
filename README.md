@@ -38,11 +38,13 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
 
 | Item | Choice |
 |---|---|
-| Framework | [Astro](https://astro.build) 7 — static output, **zero client-side JavaScript** |
+| Framework | [Astro](https://astro.build) 7 — static output; a little self-hosted JavaScript for search, header and gentle motion (`src/scripts/`) |
+| Search | [Pagefind](https://pagefind.app) — static search index built into `dist/pagefind/` by `npm run build` (not available in `npm run dev`) |
+| Design rules | [`DESIGN.md`](DESIGN.md) — layout, tokens, components (owner's brief) |
 | Node | 22.23.4 (pinned in `.node-version` / `.nvmrc`) |
 | Hosting | Cloudflare Pages — build `npm run build`, output `dist` |
 | Styling | Plain CSS. Brand tokens in `src/styles/global.css` (`:root`) + scoped `<style>` in components |
-| Fonts | Aptos (if installed on visitor's device) → Albert Sans (self-hosted via `@fontsource`) |
+| Fonts | Albert Sans only, weights 400/500/600 (self-hosted via `@fontsource`) |
 | Content | Service pages = TypeScript data files; blog = Markdown content collection |
 | Forms / booking | External: Google Form + Google Calendar (open in new tab). No back end. |
 | SEO | Per-page title/description, canonical, Open Graph/Twitter, JSON-LD (ProfessionalService, Service, FAQPage, BreadcrumbList, BlogPosting), sitemap, robots.txt |
@@ -54,7 +56,7 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
 |---|---|
 | `npm ci` | Install exact dependency versions from `package-lock.json` |
 | `npm run dev` | Local preview at http://localhost:4321 with live reload |
-| `npm run build` | Build to `dist/` **and run the safety checks** (fails on problems) |
+| `npm run build` | Build to `dist/`, create the search index, **and run the safety checks** (fails on problems) |
 | `npm run check` | Run the safety checks again on an existing `dist/` |
 | `npm run preview` | Serve the built `dist/` locally |
 
@@ -82,7 +84,8 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
     ├── content/policies/     ← ★ Terms, Privacy, Refund, Complaints (owner's approved wording)
     ├── content.config.ts     ← blog & policy fields
     ├── layouts/              ← page templates (Base, Service, Policy)
-    ├── components/           ← header, footer, buttons, FAQ, etc.
+    ├── components/           ← header, footer, search overlay, buttons, FAQ, testimonials, icons
+    ├── scripts/              ← small browser scripts: search.ts, site.ts (header, motion, WhatsApp button)
     ├── lib/schema.ts         ← Google structured data
     └── pages/                ← one file per URL (index, about, pricing, contact, policies, blog…)
                                 [service].astro generates all six service pages
@@ -95,7 +98,9 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
 - **Never hard-code** an email, phone number or link in a page — import it from `src/config/site.ts`.
 - **One `<h1>` per page.** Page titles are passed to `BaseLayout` *without* the brand; it is appended automatically.
 - **Compliance wording** (see `CLAUDE.md` A6) is checked automatically.
-- **No inline `<script>` or `style=""`** — the Content-Security-Policy blocks them. Use component `<style>` blocks.
+- **No inline `<script>` or `style=""`** — the Content-Security-Policy blocks them (the build fails if one appears). Put browser code in `src/scripts/` or a component `<script>`; Astro bundles it into a file.
+- **Search:** wrap content that should be searchable in `data-pagefind-body` (or pass `searchable` to `BaseLayout`); mark parts to skip with `data-pagefind-ignore`.
+- **Design:** follow `DESIGN.md` — tokens live in `src/styles/global.css`.
 - Keep dependency versions **exact** (`--save-exact`).
 
 ### Branches & releases

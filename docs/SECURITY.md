@@ -10,7 +10,8 @@
 | Protection | What it means in plain English | Where |
 |---|---|---|
 | **Static site, no database, no logins** | There is nothing on the server for an attacker to log in to or break into | Astro static build |
-| **Zero JavaScript** | No code runs in visitors' browsers, so there is nothing to hijack | Whole site |
+| **Minimal, self-hosted JavaScript** | Only small scripts we wrote (search, header, gentle motion) run, from our own domain. No third-party code, no tracking, no cookies | `src/scripts/` |
+| **No inline code** | The build fails if any inline script or style appears, so the strict security policy can block injected code | `scripts/post-build-checks.mjs` |
 | **No third-party scripts or trackers** | No outside company's code can be injected into the site | Whole site |
 | **Content-Security-Policy** | Browsers refuse to run any code or load any file that isn't ours | `public/_headers` |
 | **HSTS** | Browsers always use the secure `https://` version | `public/_headers` |

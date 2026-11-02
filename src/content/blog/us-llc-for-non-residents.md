@@ -2,6 +2,7 @@
 title: "US LLC for Non-Residents: Formation, EIN and Banking Explained"
 seoTitle: "US LLC for Non-Residents: Formation, EIN & Banking"
 description: "How non-US residents form a US LLC: choosing a state, registered agents, getting an EIN without an SSN, US banking and the annual filings to know about."
+category: Formation
 pubDate: 2026-10-26
 related: ["us-llc-formation", "bookkeeping-accounting", "financial-modelling"]
 faqs:

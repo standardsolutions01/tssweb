@@ -1,183 +1,321 @@
 ---
-/** HOME PAGE — thestandardsolutions.com/ */
+/**
+ * HOME PAGE — thestandardsolutions.com/
+ * Section order follows DESIGN.md §6:
+ * hero → trust strip → services → who we help → how it works → why TSS →
+ * testimonials (hidden until approved) → insights → FAQ → closing CTA.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaButtons from '../components/CtaButtons.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import Testimonials from '../components/Testimonials.astro';
 import { SITE, MARKETS } from '../config/site';
-import { SERVICES } from '../data/services';
-import { approvedTestimonials } from '../data/testimonials';
+import { SERVICES, getService } from '../data/services';
+import { faqSchema } from '../lib/schema';
+import { readingMinutes } from '../lib/reading';
+import type { IconName } from '../lib/icon-names';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-// Formation services first, then ongoing services.
-const formation = SERVICES.filter((s) => s.serviceType.startsWith('Company'));
-const ongoing = SERVICES.filter((s) => !formation.includes(s));
-
-const figures = [
-  { value: SITE.clientsServed, label: 'Clients served' },
-  { value: SITE.yearsExperience, label: 'Years of experience' },
-  { value: String(MARKETS.length), label: 'Countries served' },
+const groups = [
+  { title: 'Set up your company', items: SERVICES.filter((s) => s.serviceType.startsWith('Company')) },
+  { title: 'Run & grow your finances', items: SERVICES.filter((s) => !s.serviceType.startsWith('Company')) },
 ];
+
+const platforms = ['Xero', 'QuickBooks', 'Zoho Books', 'MYOB', 'FreshBooks', 'Bill.com', 'Stripe'];
+
+const audiences: { icon: IconName; title: string; text: string; links: string[] }[] = [
+  {
+    icon: 'globe',
+    title: 'Founders abroad',
+    text: 'Setting up in the UK, US or Pakistan from wherever you live. We handle the formation and the first steps after it.',
+    links: ['uk-company-formation', 'us-llc-formation', 'pakistan-company-registration'],
+  },
+  {
+    icon: 'briefcase',
+    title: 'Small businesses',
+    text: 'Clean monthly books, reconciled accounts and reports you can read, in Xero, QuickBooks or Zoho Books.',
+    links: ['bookkeeping-accounting'],
+  },
+  {
+    icon: 'trending',
+    title: 'Growing companies',
+    text: 'Investor- and bank-ready financial models, and part-time CFO support when the numbers start to matter more.',
+    links: ['financial-modelling', 'fractional-cfo'],
+  },
+];
+
 const steps = [
   { title: 'Free consultation', text: 'A short call to understand your business, goals and deadlines.' },
-  { title: 'Clear proposal', text: 'A written scope and fixed quote, agreed before any work starts.' },
-  { title: 'We get to work', text: 'Formation, onboarding or modelling, with updates at each stage.' },
+  { title: 'Quote', text: 'A written scope and a fixed quote, agreed before any work starts.' },
+  { title: 'Set up / onboarding', text: 'We form your company or set up secure access to your books.' },
   { title: 'Ongoing support', text: 'Monthly books, reports and finance support as you grow.' },
 ];
-const credentials = [
-  'ACMA — Associate Management Accountant (ICMA Pakistan)',
-  'Certified Xero Advisor',
-  'Advanced QuickBooks Online ProAdvisor',
-  'UK, US, UAE, Australian and Pakistani requirements',
-  'Xero · QuickBooks Online · Zoho Books · MYOB · FreshBooks',
-  'Bill.com · Ramp · Expensify · Stripe',
+
+const reasons: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'award', title: 'Qualified accountant', text: 'ACMA — Associate Management Accountant (ICMA Pakistan).' },
+  { icon: 'cloud', title: 'Cloud-platform certified', text: 'Certified Xero Advisor and Advanced QuickBooks Online ProAdvisor.' },
+  { icon: 'route', title: 'One partner, end to end', text: 'From registration to monthly reporting — one team and one point of contact.' },
+  { icon: 'file-text', title: 'Clear terms', text: 'A fixed quote after a free consultation. Setup services: 60% advance, 40% on completion.' },
+];
+
+const faqs = [
+  {
+    q: 'Which countries do you work with?',
+    a: 'We work with clients in the United Kingdom, the United States, the UAE, Australia and Pakistan. In Australia we provide bookkeeping and advisory services only.',
+    link: { href: '/about/', label: 'About us' },
+  },
+  {
+    q: 'How much do your services cost?',
+    a: 'We don’t publish prices because every business is different. After a free consultation you receive a written scope and a fixed quote, so you know the cost before any work begins.',
+    link: { href: '/pricing/', label: 'How our fees work' },
+  },
+  {
+    q: 'What are your payment terms?',
+    a: 'One-time setup services are 60% in advance and 40% on completion. Monthly services are invoiced as agreed in your engagement letter. Government and partner fees are passed on at cost.',
+    link: { href: '/terms/', label: 'Terms of Service' },
+  },
+  {
+    q: 'Do I need to travel to set up a UK or US company?',
+    a: 'No. Formation can be completed remotely. UK filings are made with and through our authorised formation partners, and US registered-agent service is provided via our partner.',
+    link: { href: '/uk-company-formation/', label: 'UK company formation' },
+  },
+  {
+    q: 'Which accounting software do you use?',
+    a: 'We work in Xero, QuickBooks Online and Zoho Books, and also support MYOB, FreshBooks, Bill.com, Ramp, Expensify and Stripe. You give us our own login, so you never share your password.',
+    link: { href: '/bookkeeping-accounting/', label: 'Bookkeeping & accounting' },
+  },
+  {
+    q: 'How do you keep my financial data secure?',
+    a: 'Work is done on encrypted devices, every platform uses two-factor authentication, access is limited to the people on your engagement, and every team member signs a non-disclosure agreement.',
+    link: { href: '/privacy/', label: 'Privacy Policy' },
+  },
 ];
 ---
-<BaseLayout title="Company Formation & Accounting" description="Company formation, bookkeeping and finance support for founders in the UK, US, UAE, Australia and Pakistan — one partner from registration to reporting.">
+<BaseLayout
+  title="Company Formation & Accounting"
+  description="Company formation, bookkeeping and finance support for founders in the UK, US, UAE, Australia and Pakistan — one partner from registration to reporting."
+  schema={[faqSchema(faqs)]}
+>
+  <!-- 1. Hero -->
   <section class="hero">
     <div class="container hero-grid">
-      <div>
-        <p class="eyebrow">Formation · Accounting · Finance</p>
-        <h1>Company formation and accounting, from registration to reporting</h1>
-        <p class="lead">We help founders set up companies in the UK, US and Pakistan, then keep the books, reports and finances in order as the business grows.</p>
+      <div class="hero-copy">
+        <p class="eyebrow">Company formation · Accounting · CFO support</p>
+        <h1>Registration to reporting — one calm partner.</h1>
+        <p class="lead">Company formation in the UK, US and Pakistan, then the bookkeeping, reports and finance support to run it well.</p>
         <CtaButtons />
       </div>
-      <div class="hero-logo" aria-hidden="true">
-        <img src="/images/logo-full.webp" alt="" width="298" height="306" />
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 400 400" class="arcs">
+          <path class="arc arc-1" d="M158.9 35.05 A170 170 0 0 1 364.95 158.87" />
+          <path class="arc arc-2" d="M244 364.2 A170 170 0 0 1 35.05 241.13" />
+          <circle class="ring" cx="200" cy="200" r="118" />
+        </svg>
       </div>
     </div>
+
+    <!-- 2. Trust strip -->
     <div class="container">
-      <dl class="figures hero-figures">
-        {figures.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
-      </dl>
-      <p class="markets"><span>Serving clients in</span> {MARKETS.map((m) => m.name).join(' · ')}</p>
+      <div class="trust">
+        <p class="trust-figs">
+          <span><strong>{SITE.clientsServed}</strong> clients</span>
+          <span aria-hidden="true">·</span>
+          <span><strong>{SITE.yearsExperience}</strong> years</span>
+          <span aria-hidden="true">·</span>
+          <span><strong>{MARKETS.length}</strong> countries</span>
+        </p>
+        <p class="platforms"><span class="visually-hidden">Platforms we work in: </span>{platforms.join(' · ')}</p>
+      </div>
     </div>
   </section>
 
-  <section class="section section--alt" id="services">
+  <!-- 3. Services -->
+  <section class="section services" id="services">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <p class="eyebrow">Services</p>
         <h2>Everything from day one to year-end</h2>
-        <p class="lead">Start with a company, stay for the accounting. One partner, one point of contact.</p>
+        <p class="lead">Start with a company, stay for the accounting. Choose where you are today.</p>
       </div>
-      <div class="svc-groups">
-        <div>
-          <h3 class="group-title">Set up your company</h3>
-          <ul class="svc-list">
-            {formation.map((s) => (
-              <li><a href={`/${s.slug}/`}><span class="svc-name">{s.name}</span><span class="svc-sum">{s.summary}</span><span class="arrow" aria-hidden="true">→</span></a></li>
+      {groups.map((g) => (
+        <div class="svc-group" data-reveal>
+          <h3 class="group-title">{g.title}</h3>
+          <div class="grid grid--3">
+            {g.items.map((s) => (
+              <a class="card" href={`/${s.slug}/`}>
+                <Icon name={s.icon} class="icon" />
+                <h3>{s.name}</h3>
+                <p class="muted">{s.menuLine}</p>
+                <span class="more">Learn more →</span>
+              </a>
             ))}
-          </ul>
+          </div>
         </div>
-        <div>
-          <h3 class="group-title">Run and grow it</h3>
-          <ul class="svc-list">
-            {ongoing.map((s) => (
-              <li><a href={`/${s.slug}/`}><span class="svc-name">{s.name}</span><span class="svc-sum">{s.summary}</span><span class="arrow" aria-hidden="true">→</span></a></li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      ))}
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">How we work</p>
-        <h2>Simple, transparent, on time</h2>
-      </div>
-      <ol class="steps">{steps.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}</ol>
-    </div>
-  </section>
-
+  <!-- 4. Who we help -->
   <section class="section section--alt">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">Why TSS</p>
-        <h2>Qualified, certified and focused on you</h2>
-        <p class="muted">{SITE.clientsServed} clients served across five countries, with {SITE.yearsExperience} years of hands-on accounting experience on the leading cloud platforms.</p>
-        <p><a href="/about/" class="text-link">More about us →</a></p>
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Who we help</p>
+        <h2>Built for three kinds of client</h2>
       </div>
-      <ul class="ticks">{credentials.map((c) => <li>{c}</li>)}</ul>
+      <div class="grid grid--3" data-reveal>
+        {audiences.map((a) => (
+          <div class="card audience">
+            <Icon name={a.icon} class="icon" />
+            <h3>{a.title}</h3>
+            <p class="muted">{a.text}</p>
+            <ul class="aud-links">
+              {a.links.map((slug) => {
+                const s = getService(slug)!;
+                return <li><a href={`/${s.slug}/`}>{s.name} →</a></li>;
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  {approvedTestimonials.length > 0 && (
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Client feedback</p>
-          <h2>What our clients say</h2>
-        </div>
-        <div class="grid grid--3">
-          {approvedTestimonials.map((t) => (
-            <figure class="card quote">
-              <blockquote>“{t.quote}”</blockquote>
-              <figcaption><strong>{t.name}</strong><br /><span class="muted">{t.role}, {t.company} · {t.country}</span></figcaption>
-            </figure>
-          ))}
-        </div>
+  <!-- 5. How it works -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">How it works</p>
+        <h2>Four simple steps</h2>
+        <p class="lead">Clear from the first call. You always know what happens next and what it costs.</p>
       </div>
-    </section>
-  )}
+      <ol class="steps" data-reveal>{steps.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}</ol>
+    </div>
+  </section>
 
+  <!-- 6. Why TSS -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Why TSS</p>
+        <h2>Qualified, certified and easy to work with</h2>
+      </div>
+      <div class="reasons" data-reveal>
+        {reasons.map((r) => (
+          <div class="reason">
+            <Icon name={r.icon} class="r-icon" />
+            <div><h3>{r.title}</h3><p class="muted">{r.text}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Testimonials (hidden until real, approved quotes exist) -->
+  <Testimonials />
+
+  <!-- 8. Insights -->
   {posts.length > 0 && (
     <section class="section">
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Guides</p>
-          <h2>From the blog</h2>
+        <div class="head-row" data-reveal>
+          <div class="section-head">
+            <p class="eyebrow">Insights</p>
+            <h2>Guides for founders</h2>
+          </div>
+          <a class="text-link" href="/blog/">All insights →</a>
         </div>
-        <div class="grid grid--3">
+        <div class="grid grid--3" data-reveal>
           {posts.map((p) => (
-            <a class="card" href={`/blog/${p.id}/`}><h3>{p.data.title}</h3><p class="muted">{p.data.description}</p><span class="more">Read guide →</span></a>
+            <a class="card post" href={`/blog/${p.id}/`}>
+              <p class="post-cat">{p.data.category}</p>
+              <h3>{p.data.title}</h3>
+              <p class="muted excerpt">{p.data.description}</p>
+              <p class="post-meta"><Icon name="clock" /> {readingMinutes(p.body)} min read</p>
+            </a>
           ))}
         </div>
       </div>
     </section>
   )}
 
+  <!-- 9. FAQ -->
+  <section class="section faq-section" data-pagefind-body data-pagefind-meta="title:Frequently asked questions">
+    <div class="container faq-grid">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions people ask first</h2>
+        <p class="muted">Can’t see yours? Ask us on WhatsApp or book a free call.</p>
+      </div>
+      <div data-reveal><Faq items={faqs} showTitle={false} group="home-faq" /></div>
+    </div>
+  </section>
+
+  <!-- 10. Closing CTA -->
   <CtaBand />
 </BaseLayout>
 
 <style>
-  .hero { padding: clamp(56px, 9vw, 120px) 0 clamp(48px, 6vw, 80px); }
+  /* Hero */
+  .hero { padding: clamp(56px, 9vw, 112px) 0 0; overflow: hidden; }
   .hero-grid { display: grid; gap: 40px; align-items: center; }
-  .hero h1 { max-width: 780px; font-size: clamp(2.2rem, 5vw, 3.6rem); letter-spacing: -0.02em; }
-  .hero-logo { display: none; }
+  .hero h1 { max-width: 14ch; margin-bottom: 24px; }
+  .hero .lead { max-width: 560px; }
+  .hero-art { display: none; }
   @media (min-width: 960px) {
-    .hero-grid { grid-template-columns: 1.6fr 1fr; }
-    .hero-logo { display: flex; justify-content: center; }
-    .hero-logo img { width: 300px; }
+    .hero-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+    .hero-art { display: block; justify-self: end; width: min(100%, 400px); }
   }
-  .hero-figures { margin-top: clamp(48px, 7vw, 88px); }
-  .markets { margin: 28px 0 0; color: var(--ink-soft); font-size: .95rem; }
-  .markets span { font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--brand-grey); margin-right: 10px; }
+  .arcs { width: 100%; height: auto; overflow: visible; }
+  .arc { fill: none; stroke: var(--tss-red); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 1.4s var(--ease) .2s forwards; }
+  .arc-2 { animation-delay: .5s; }
+  .ring { fill: none; stroke: var(--line); stroke-width: 1; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .arc { stroke-dashoffset: 0; } }
 
-  .svc-groups { display: grid; gap: 48px 56px; }
-  @media (min-width: 900px) { .svc-groups { grid-template-columns: 1fr 1fr; } }
-  .group-title { font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--brand-grey); margin: 0 0 8px; }
-  .svc-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-  .svc-list li { border-bottom: 1px solid var(--line); }
-  .svc-list a {
-    display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 22px 0;
-    text-decoration: none; color: inherit;
+  /* Trust strip */
+  .trust {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 32px;
+    margin-top: clamp(56px, 8vw, 104px); padding: 24px 0; border-top: 1px solid var(--line);
   }
-  .svc-name { font-weight: 600; font-size: 1.15rem; grid-column: 1; }
-  .svc-sum { color: var(--ink-soft); grid-column: 1; }
-  .arrow { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--brand-blue); font-size: 1.3rem; transition: transform .15s; }
-  .svc-list a:hover .svc-name { color: var(--brand-blue); }
-  .svc-list a:hover .arrow { transform: translateX(4px); }
+  .trust p { margin: 0; }
+  .trust-figs { display: flex; flex-wrap: wrap; gap: 6px 12px; color: var(--ink-soft); }
+  .trust-figs strong { color: var(--ink); font-weight: 600; }
+  .platforms { font-size: .9rem; color: var(--tss-grey); letter-spacing: .02em; }
 
-  .split { display: grid; gap: 32px; }
-  @media (min-width: 900px) { .split { grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; } }
-  .text-link { font-weight: 600; text-decoration: none; }
-  .text-link:hover { text-decoration: underline; }
-  .quote blockquote { margin: 0 0 16px; font-size: 1.05rem; }
-  .quote figcaption { font-size: .95rem; }
+  /* Services */
+  .services { padding-top: clamp(56px, 7vw, 96px); }
+  .svc-group + .svc-group { margin-top: 48px; }
+  .group-title { font-size: .78rem; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--tss-grey); margin: 0 0 20px; }
+
+  /* Who we help */
+  .aud-links { list-style: none; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 8px; font-size: 1rem; }
+  .aud-links a { text-decoration: none; font-weight: 500; }
+  .aud-links a:hover { text-decoration: underline; }
+
+  /* Why TSS */
+  .reasons { display: grid; gap: 40px var(--gap); }
+  @media (min-width: 768px) { .reasons { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .reason { display: flex; gap: 20px; align-items: flex-start; max-width: 520px; }
+  .reason :global(.r-icon) { width: 28px; height: 28px; color: var(--tss-blue); flex: none; margin-top: 2px; }
+  .reason h3 { margin-bottom: 6px; }
+  .reason p { margin: 0; }
+
+  /* Insights */
+  .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 48px; }
+  .head-row .section-head { margin-bottom: 0; }
+  .post-cat { font-size: .75rem; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--tss-grey); margin-bottom: 14px; }
+  .post .excerpt { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .post-meta { margin-top: auto; padding-top: 16px; display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--tss-grey); }
+  .post-meta :global(svg) { width: 16px; height: 16px; }
+
+  /* FAQ */
+  .faq-section { border-top: 1px solid var(--line); }
+  .faq-grid { display: grid; gap: 32px; }
+  @media (min-width: 960px) { .faq-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 72px; align-items: start; } }
 </style>

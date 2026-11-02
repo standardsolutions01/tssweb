@@ -10,7 +10,8 @@
  *     meta description ≤ 155 characters.
  *  4. External links — every link to another website must open in a
  *     new tab with rel="noopener noreferrer" (owner's rule + security).
- *  5. Unfinished placeholders — warns (does not fail) if "[PLACEHOLDER]"
+ *  5. No inline JavaScript — the Content-Security-Policy would block it.
+ *  6. Unfinished placeholders — warns (does not fail) if "[PLACEHOLDER]"
  *     text is visible on any page.
  */
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
@@ -57,6 +58,16 @@ for (const file of files) {
     }
   }
 
+  // 5. No inline executable scripts (only <script src=…> and JSON-LD data are allowed)
+  for (const [tag] of html.matchAll(/<script\b[^>]*>/g)) {
+    if (!/\ssrc=/.test(tag) && !/type="application\/ld\+json"/.test(tag)) {
+      errors.push(`${page}: inline <script> found (blocked by the security policy): ${tag}`);
+    }
+  }
+  if (/\sstyle="/.test(html.replace(/<svg[\s\S]*?<\/svg>/g, ''))) {
+    errors.push(`${page}: inline style="" attribute found (blocked by the security policy)`);
+  }
+
   // 3. SEO basics
   if (!page.startsWith('/404')) {
     const h1s = (html.match(/<h1[\s>]/g) || []).length;
@@ -69,7 +80,7 @@ for (const file of files) {
     else if (desc.length > 155) errors.push(`${page}: description is ${desc.length} characters (max 155)`);
   }
 
-  // 5. Placeholders (warning only)
+  // 6. Placeholders (warning only)
   if (/\[PLACEHOLDER\]/.test(visibleText)) warnings.push(`${page}: contains [PLACEHOLDER] text`);
 }
 

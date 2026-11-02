@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'us-llc-formation',
   name: 'US LLC Formation',
   summary: 'Form a US LLC as a non-resident, with EIN application and US banking guidance.',
+  icon: 'landmark',
+  menuLine: 'US LLCs for non-residents, with EIN and banking guidance.',
   seoTitle: 'US LLC Formation for Non-Residents',
   seoDescription:
     'US LLC formation for non-residents: state selection, filing, registered agent via partner, EIN application support and US banking guidance.',

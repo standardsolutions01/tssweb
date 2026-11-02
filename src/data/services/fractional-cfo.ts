@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'fractional-cfo',
   name: 'Fractional CFO & Controller',
   summary: 'Part-time CFO and financial controller support — reporting, cash flow and decision-making.',
+  icon: 'compass',
+  menuLine: 'Part-time CFO and financial controller support.',
   seoTitle: 'Fractional CFO Services UK',
   seoDescription:
     'Fractional CFO services for UK and international businesses: financial controller support, cash flow forecasting, KPIs, board reporting and budgeting.',

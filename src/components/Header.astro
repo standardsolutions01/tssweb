@@ -1,105 +1,182 @@
 ---
 /**
- * Site header. Works WITHOUT JavaScript:
- *  - Desktop: "Services" menu opens on hover / keyboard focus.
- *  - Mobile: the menu button uses the built-in <details> element.
+ * SITE HEADER (DESIGN.md §4)
+ *  - Sticky, white, 72px; shrinks to 60px after scrolling (class added by src/scripts/site.ts).
+ *  - Left: logo · Centre: menu (max 5) · Right: search + "Book a Free Consultation".
+ *  - Desktop "Services" panel opens on hover or keyboard focus (no JavaScript needed).
+ *  - Mobile: full-screen white menu using <details>, search bar at top, CTA at bottom.
  */
 import { NAV, LINKS, SITE } from '../config/site';
 import { SERVICES } from '../data/services';
 import ExternalLink from './ExternalLink.astro';
+import Icon from './Icon.astro';
 
 const current = Astro.url.pathname;
-const isActive = (href: string) => current === href || (href !== '/' && current.startsWith(href));
+const isActive = (href: string) => !href.includes('#') && href !== '/' && current.startsWith(href);
+const setUp = SERVICES.filter((s) => s.serviceType.startsWith('Company'));
+const runGrow = SERVICES.filter((s) => !setUp.includes(s));
+const groups = [
+  { title: 'Set up your company', items: setUp },
+  { title: 'Run & grow your finances', items: runGrow },
+];
+const servicesActive = SERVICES.some((s) => current.startsWith(`/${s.slug}/`));
 ---
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="container bar">
     <a href="/" class="brand" aria-label={`${SITE.name} — home`}>
-      <img src="/images/logo-tss.webp" alt="" width="44" height="45" />
-      <span class="brand-text"><span class="the">The</span> Standard <span class="sol">Solutions</span></span>
+      <img src="/images/logo-header.webp" alt={SITE.name} width="298" height="215" />
     </a>
 
     <nav class="desktop-nav" aria-label="Main">
-      <ul>
-        <li class="has-menu">
-          <a href="/#services" class:list={[{ active: SERVICES.some((s) => isActive(`/${s.slug}/`)) }]}>Services</a>
-          <ul class="menu">
-            {SERVICES.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}
-          </ul>
+      <ul class="menu-root">
+        <li class="has-panel">
+          <a href="/#services" class:list={['top-link', { active: servicesActive }]} aria-haspopup="true">
+            Services <Icon name="chevron" class="chev" />
+          </a>
+          <div class="panel">
+            {groups.map((g) => (
+              <div class="panel-col">
+                <p class="panel-title">{g.title}</p>
+                <ul>
+                  {g.items.map((s) => (
+                    <li>
+                      <a href={`/${s.slug}/`}>
+                        <Icon name={s.icon} class="panel-icon" />
+                        <span><strong>{s.name}</strong><span class="panel-line">{s.menuLine}</span></span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </li>
         {NAV.map((item) => (
-          <li><a href={item.href} class:list={[{ active: isActive(item.href) }]}>{item.label}</a></li>
+          <li><a href={item.href} class:list={['top-link', { active: isActive(item.href) }]}>{item.label}</a></li>
         ))}
       </ul>
-      <ExternalLink href={LINKS.booking} class="btn btn--primary btn--sm">Book a Free Consultation</ExternalLink>
     </nav>
 
-    <details class="mobile-nav">
-      <summary aria-label="Menu"><span class="burger" aria-hidden="true"></span><span class="label">Menu</span></summary>
-      <nav class="mobile-panel" aria-label="Mobile">
-        <p class="group">Services</p>
-        <ul>{SERVICES.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}</ul>
-        <hr />
-        <ul>{NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
-        <ExternalLink href={LINKS.booking} class="btn btn--primary">Book a Free Consultation</ExternalLink>
-      </nav>
-    </details>
+    <div class="actions">
+      <button type="button" class="icon-btn" data-search-open aria-label="Search the site (press /)">
+        <Icon name="search" />
+      </button>
+      <ExternalLink href={LINKS.booking} class="btn btn--primary btn--sm cta">Book a Free Consultation</ExternalLink>
+
+      <details class="mobile-nav" data-mobile-nav>
+        <summary aria-label="Open menu"><span class="burger" aria-hidden="true"></span></summary>
+        <div class="mobile-panel">
+          <button type="button" class="mobile-search" data-search-open>
+            <Icon name="search" /> <span>Search services and guides</span>
+          </button>
+          <nav aria-label="Mobile">
+            {groups.map((g) => (
+              <div class="m-group">
+                <p class="panel-title">{g.title}</p>
+                <ul>{g.items.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}</ul>
+              </div>
+            ))}
+            <ul class="m-main">{NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
+          </nav>
+          <ExternalLink href={LINKS.booking} class="btn btn--primary m-cta">Book a Free Consultation</ExternalLink>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: saturate(160%) blur(8px); }
-  .bar { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
-  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brand-grey); }
-  .brand img { width: 44px; height: auto; }
-  .brand-text { font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-size: .9rem; white-space: nowrap; }
-  .brand-text .the { color: var(--brand-blue); }
-  .brand-text .sol { color: var(--brand-blue); }
-
-  .desktop-nav { display: none; align-items: center; gap: 28px; }
-  .desktop-nav > ul { list-style: none; display: flex; gap: 26px; margin: 0; padding: 0; }
-  .desktop-nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: .98rem; }
-  .desktop-nav a:hover, .desktop-nav a.active { color: var(--brand-blue); }
-  .desktop-nav a.btn { color: #fff; }
-  .btn--sm { padding: 10px 18px; font-size: .92rem; }
-
-  .has-menu { position: relative; }
-  .has-menu > a::after { content: ''; display: inline-block; margin-left: 6px; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); }
-  .menu {
-    list-style: none; margin: 0; padding: 10px; position: absolute; top: 100%; left: -16px; min-width: 280px;
-    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 12px 30px rgba(13,27,46,.08);
-    opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .15s, transform .15s, visibility .15s;
+  .site-header {
+    position: sticky; top: 0; z-index: 50; background: var(--white);
+    border-bottom: 1px solid var(--line); transition: box-shadow .2s;
   }
-  .has-menu::before { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 14px; }
-  .menu { margin-top: 12px; }
-  .has-menu:hover .menu, .has-menu:focus-within .menu { opacity: 1; visibility: visible; transform: none; }
-  .menu a { display: block; padding: 9px 12px; border-radius: 6px; }
-  .menu a:hover { background: var(--surface-alt); }
+  .bar { display: flex; align-items: center; gap: 20px; height: var(--header-h); transition: height .2s var(--ease); }
+  .site-header.is-scrolled .bar { height: var(--header-h-small); }
+  .site-header.is-scrolled { box-shadow: 0 1px 2px rgba(0, 0, 0, .04); }
 
-  .mobile-nav summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 4px; font-weight: 600; color: var(--ink); }
+  .brand { display: flex; align-items: center; flex: none; padding: 4px 0; }
+  .brand img { height: 58px; width: auto; transition: height .2s var(--ease); }
+  .site-header.is-scrolled .brand img { height: 48px; }
+
+  /* ---- Desktop menu ---- */
+  .desktop-nav { display: none; flex: 1; justify-content: center; }
+  .menu-root { list-style: none; display: flex; align-items: center; gap: 4px; margin: 0; padding: 0; }
+  .top-link {
+    display: inline-flex; align-items: center; gap: 4px; padding: 10px 14px; border-radius: 999px;
+    color: var(--ink); text-decoration: none; font-size: 1rem; font-weight: 500; transition: color .2s, background-color .2s;
+  }
+  .top-link:hover, .top-link.active { color: var(--tss-blue); }
+  .top-link :global(.chev) { width: 16px; height: 16px; transition: transform .2s; }
+
+  .has-panel { position: relative; }
+  .has-panel::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 18px; }
+  .panel {
+    position: absolute; top: calc(100% + 14px); left: -24px; width: 680px; transform: translateY(6px);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; padding: 24px;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 12px 32px rgba(13, 27, 46, .08);
+    opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s;
+  }
+  .has-panel:hover .panel, .has-panel:focus-within .panel { opacity: 1; visibility: visible; transform: none; }
+  .has-panel:hover :global(.chev), .has-panel:focus-within :global(.chev) { transform: rotate(180deg); }
+  .panel-title { font-size: .72rem; font-weight: 500; letter-spacing: .25em; text-transform: uppercase; color: var(--tss-grey); margin: 0 0 8px 12px; }
+  .panel ul { list-style: none; margin: 0; padding: 0; }
+  .panel a {
+    display: flex; gap: 14px; align-items: flex-start; padding: 12px; border-radius: 12px;
+    text-decoration: none; color: var(--ink); transition: background-color .2s;
+  }
+  .panel a:hover { background: var(--light-grey); }
+  .panel a:hover strong { color: var(--tss-blue); }
+  .panel :global(.panel-icon) { width: 22px; height: 22px; color: var(--tss-blue); flex: none; margin-top: 2px; }
+  .panel strong { display: block; font-weight: 500; font-size: 1rem; line-height: 1.35; transition: color .2s; }
+  .panel-line { display: block; font-size: .9rem; color: var(--ink-soft); line-height: 1.45; margin-top: 2px; }
+
+  /* ---- Right-hand actions ---- */
+  .actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .icon-btn {
+    width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
+    border: 0; background: transparent; color: var(--ink); cursor: pointer; transition: background-color .2s, color .2s;
+  }
+  .icon-btn:hover { background: var(--light-grey); color: var(--tss-blue); }
+  .icon-btn :global(svg) { width: 22px; height: 22px; }
+  .actions :global(.cta) { display: none; }
+
+  /* ---- Mobile menu (full screen) ---- */
+  .mobile-nav summary {
+    list-style: none; cursor: pointer; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%;
+  }
   .mobile-nav summary::-webkit-details-marker { display: none; }
-  .burger, .burger::before, .burger::after { display: block; width: 22px; height: 2px; background: var(--ink); position: relative; transition: transform .2s; }
+  .burger, .burger::before, .burger::after { display: block; width: 22px; height: 1.5px; background: var(--ink); position: relative; transition: transform .2s, background-color .2s; }
   .burger::before, .burger::after { content: ''; position: absolute; left: 0; }
   .burger::before { top: -7px; } .burger::after { top: 7px; }
   .mobile-nav[open] .burger { background: transparent; }
   .mobile-nav[open] .burger::before { transform: translateY(7px) rotate(45deg); }
   .mobile-nav[open] .burger::after { transform: translateY(-7px) rotate(-45deg); }
   .mobile-panel {
-    position: absolute; left: 0; right: 0; top: 72px; background: #fff; border-bottom: 1px solid var(--line);
-    padding: 16px 20px 24px; max-height: calc(100vh - 72px); overflow-y: auto; box-shadow: 0 16px 30px rgba(13,27,46,.08);
+    position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h); z-index: 49;
+    background: var(--white); overflow-y: auto; display: flex; flex-direction: column; gap: 24px;
+    padding: 20px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px));
   }
+  .site-header.is-scrolled .mobile-panel { top: var(--header-h-small); }
+  .mobile-search {
+    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 0 18px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--light-grey);
+    font: inherit; font-size: 1rem; color: var(--ink-soft); cursor: pointer; text-align: left;
+  }
+  .mobile-search :global(svg) { width: 20px; height: 20px; color: var(--tss-blue); }
   .mobile-panel ul { list-style: none; margin: 0; padding: 0; }
-  .mobile-panel a:not(.btn) { display: block; padding: 10px 0; color: var(--ink); text-decoration: none; font-weight: 500; }
-  .mobile-panel .group { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--brand-grey); margin: 4px 0 2px; font-weight: 600; }
-  .mobile-panel hr { border: 0; border-top: 1px solid var(--line); margin: 10px 0; }
-  .mobile-panel .btn { margin-top: 14px; width: 100%; }
-
-  @media (max-width: 480px) {
-    .brand img { width: 38px; }
-    .brand-text { font-size: .76rem; letter-spacing: .1em; }
-    .mobile-nav .label { display: none; }
+  .mobile-panel .panel-title { margin: 0 0 4px; }
+  .m-group { border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 12px; }
+  .mobile-panel a:not(.btn) {
+    display: flex; align-items: center; min-height: 48px; color: var(--ink); text-decoration: none; font-size: 1.1rem; font-weight: 500;
   }
-  @media (min-width: 1000px) {
+  .mobile-panel a:not(.btn):hover { color: var(--tss-blue); }
+  .mobile-panel :global(.m-cta) { margin-top: auto; width: 100%; min-height: 52px; position: sticky; bottom: 0; box-shadow: 0 -12px 16px var(--white); }
+
+  @media (max-width: 480px) { .brand img { height: 50px; } .site-header.is-scrolled .brand img { height: 44px; } }
+  @media (min-width: 1100px) {
     .desktop-nav { display: flex; }
     .mobile-nav { display: none; }
+    .actions :global(.cta) { display: inline-flex; }
   }
 </style>

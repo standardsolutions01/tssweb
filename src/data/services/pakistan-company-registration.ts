@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'pakistan-company-registration',
   name: 'Pakistan Company Registration',
   summary: 'SECP company registration, NTN and FBR set-up for local and overseas founders.',
+  icon: 'file-check',
+  menuLine: 'SECP incorporation, NTN and FBR set-up.',
   seoTitle: 'SECP Company Registration in Pakistan',
   seoDescription:
     'SECP company registration in Pakistan: name reservation, incorporation, NTN and FBR registration for SMC, private limited and overseas-owned companies.',

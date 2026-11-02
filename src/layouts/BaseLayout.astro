@@ -8,6 +8,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import SearchDialog from '../components/SearchDialog.astro';
 import { SITE } from '../config/site';
 import { organizationSchema, breadcrumbSchema } from '../lib/schema';
 
@@ -23,9 +24,11 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Set true to stop Google indexing this page (e.g. 404) */
   noindex?: boolean;
+  /** Set true to include the whole page in the site search (service pages, articles) */
+  searchable?: boolean;
 }
 
-const { title, description = SITE.description, schema = [], breadcrumbs, ogType = 'website', noindex = false } = Astro.props;
+const { title, description = SITE.description, schema = [], breadcrumbs, ogType = 'website', noindex = false, searchable = false } = Astro.props;
 
 // Title format: "[Page] | The Standard Solutions" — falls back to "| TSS"
 // when the full version would be longer than 60 characters.
@@ -81,10 +84,15 @@ const jsonLd = (o: object) => JSON.stringify(o).replace(/</g, '\\u003c');
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
+    <main id="main" data-pagefind-body={searchable ? '' : undefined}>
       <slot />
     </main>
     <Footer />
     <WhatsAppFloat />
+    <SearchDialog />
+    <script>
+      import '../scripts/site';
+      import '../scripts/search';
+    </script>
   </body>
 </html>

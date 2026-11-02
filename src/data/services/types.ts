@@ -1,3 +1,5 @@
+import type { IconName } from '../../lib/icon-names';
+
 /**
  * The shape of one service page. Each service has its own file in this
  * folder (e.g. uk-company-formation.ts). To edit the wording on a service
@@ -11,6 +13,10 @@ export interface Service {
   name: string;
   /** One-line summary used on cards (home page, menus, related services) */
   summary: string;
+  /** Thin line icon shown on cards (see src/components/Icon.astro) */
+  icon: IconName;
+  /** Very short line shown in the Services menu and search shortcuts (brand sheet wording) */
+  menuLine: string;
   /** Google search result title (brand is added automatically) — keep under ~38 characters */
   seoTitle: string;
   /** Google search result description — keep under 155 characters */

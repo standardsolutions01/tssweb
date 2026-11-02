@@ -13,6 +13,8 @@
 | ☐ | **Logo as SVG** (optional, sharper) | Header, footer | PNG/WebP from owner-supplied files |
 | ☐ | **Google Form questions** review (owner edits in Google Forms) | Enquiry buttons | Live link in place |
 | ☐ | **Founder photo** (optional) | About page | Not used |
+| ☐ | **Working hours** (PKT, with UK overlap) | Contact page (phase 2) | `CONTACT.workingHours` in `src/config/site.ts` is empty |
+| ☐ | **Google Form "pre-filled link"** (so the on-page contact form can send to your Google Form) | Contact page form (phase 2) | Until supplied, the Contact page links to the Google Form |
 
 ## Done ✅
 

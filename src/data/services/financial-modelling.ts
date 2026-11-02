@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'financial-modelling',
   name: 'Pro Forma & Financial Models',
   summary: 'Investor- and bank-ready pro forma statements, projections and startup financial models.',
+  icon: 'chart',
+  menuLine: 'Investor- and bank-ready projections and pro forma statements.',
   seoTitle: 'Pro Forma Statements & Startup Financial Models',
   seoDescription:
     'Pro forma financial statements and startup financial models for investors, banks and business plans. Integrated P&L, balance sheet and cash flow.',

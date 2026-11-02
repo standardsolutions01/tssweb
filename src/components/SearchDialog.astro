@@ -1,0 +1,75 @@
+---
+/**
+ * SEARCH OVERLAY (DESIGN.md §5)
+ * Opens from the 🔍 button, or by pressing "/" or Ctrl/⌘ + K.
+ * Results come from Pagefind (a static search index built by `npm run build`).
+ * Logic: src/scripts/search.ts
+ */
+import { SERVICES } from '../data/services';
+import { whatsappUrl } from '../config/site';
+import Icon from './Icon.astro';
+---
+<dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+  <div class="box">
+    <form class="bar" role="search" data-search-form>
+      <Icon name="search" class="bar-icon" />
+      <label class="visually-hidden" for="site-search-input">Search services, FAQs and guides</label>
+      <input id="site-search-input" type="search" placeholder="Search services, FAQs and guides" autocomplete="off" spellcheck="false" data-search-input />
+      <button type="button" class="close" data-search-close aria-label="Close search"><Icon name="close" /></button>
+    </form>
+
+    <div class="body">
+      <p class="status" data-search-status aria-live="polite"></p>
+      <ul class="results" data-search-results></ul>
+
+      <div class="empty" data-search-empty>
+        <p class="label">Services</p>
+        <ul class="shortcuts">
+          {SERVICES.map((s) => (
+            <li><a href={`/${s.slug}/`}><Icon name={s.icon} /><span>{s.name}</span></a></li>
+          ))}
+        </ul>
+        <a class="btn btn--outline wa" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" />Chat on WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a>
+      </div>
+    </div>
+    <p class="hint"><kbd>↑</kbd><kbd>↓</kbd> to move · <kbd>Enter</kbd> to open · <kbd>Esc</kbd> to close</p>
+  </div>
+</dialog>
+
+<style>
+  .search-dialog {
+    width: min(680px, calc(100vw - 32px)); max-height: min(78vh, 720px); margin: 10vh auto auto; padding: 0;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: var(--ink);
+    box-shadow: 0 24px 60px rgba(13, 27, 46, .18); overflow: hidden;
+  }
+  .search-dialog::backdrop { background: rgba(13, 27, 46, .35); }
+  .search-dialog[open] { display: flex; }
+  .box { display: flex; flex-direction: column; width: 100%; max-height: inherit; }
+  .bar { display: flex; align-items: center; gap: 12px; padding: 14px 14px 14px 20px; border-bottom: 1px solid var(--line); }
+  .bar :global(.bar-icon) { width: 22px; height: 22px; color: var(--tss-blue); flex: none; }
+  .bar input {
+    flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 1.125rem; padding: 10px 0; background: transparent; color: var(--ink);
+  }
+  .bar input::-webkit-search-cancel-button { display: none; }
+  .close { width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink-soft); }
+  .close:hover { background: var(--light-grey); color: var(--ink); }
+  .close :global(svg) { width: 20px; height: 20px; }
+  .body { overflow-y: auto; padding: 16px 20px 20px; }
+  .status { margin: 0 0 8px; font-size: .9rem; color: var(--ink-soft); }
+  .status:empty { display: none; }
+  .results { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .results :global(a) { display: block; padding: 14px 16px; border-radius: 12px; text-decoration: none; color: var(--ink); outline-offset: -2px; }
+  .results :global(a:hover), .results :global(a:focus-visible) { background: var(--light-grey); }
+  .results :global(.r-title) { display: block; font-weight: 500; color: var(--tss-blue); margin-bottom: 4px; }
+  .results :global(.r-snippet) { display: block; font-size: .95rem; color: var(--ink-soft); line-height: 1.55; }
+  .results :global(mark) { background: var(--tss-blue-tint); color: var(--ink); border-radius: 3px; padding: 0 2px; }
+  .empty .label { margin-bottom: 10px; }
+  .shortcuts { list-style: none; margin: 0 0 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 4px 12px; }
+  .shortcuts a { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; color: var(--ink); text-decoration: none; min-height: 48px; }
+  .shortcuts a:hover, .shortcuts a:focus-visible { background: var(--light-grey); color: var(--tss-blue); }
+  .shortcuts :global(svg) { width: 20px; height: 20px; color: var(--tss-blue); flex: none; }
+  .empty[hidden], .results[hidden] { display: none; }
+  .hint { margin: 0; padding: 10px 20px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--tss-grey); }
+  kbd { font-family: inherit; font-size: .75rem; border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; margin-right: 3px; background: var(--light-grey); }
+  @media (max-width: 600px) { .search-dialog { margin-top: 12px; max-height: calc(100vh - 24px); } .hint { display: none; } }
+</style>

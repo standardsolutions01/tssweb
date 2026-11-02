@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'uk-company-formation',
   name: 'UK Company Formation',
   summary: 'Set up a UK limited company from Pakistan or anywhere abroad — no UK residency needed.',
+  icon: 'building',
+  menuLine: 'UK limited companies for non-residents and Pakistani founders.',
   seoTitle: 'UK Company Formation for Non-Residents',
   seoDescription:
     'UK company formation for non-residents and Pakistani founders. Companies House filing via authorised partners, plus HMRC set-up and bookkeeping.',

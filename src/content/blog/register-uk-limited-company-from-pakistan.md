@@ -2,6 +2,7 @@
 title: "How to Register a UK Limited Company from Pakistan (Step-by-Step)"
 seoTitle: "Register a UK Company from Pakistan: Step-by-Step"
 description: "A step-by-step guide for Pakistani founders forming a UK limited company: requirements, identity verification, registered office, tax set-up and banking."
+category: Formation
 pubDate: 2026-11-02
 related: ["uk-company-formation", "bookkeeping-accounting", "fractional-cfo"]
 faqs:

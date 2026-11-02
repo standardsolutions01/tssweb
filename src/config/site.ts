@@ -40,6 +40,8 @@ export const CONTACT = {
   whatsappMessage: 'Hello TSS, I would like to discuss your services.',
   /** Public location (the full address is ONLY used in the policies) */
   locationPublic: 'Islamabad, Pakistan',
+  /** Working hours shown on the Contact page (owner to confirm) */
+  workingHours: '',
   city: 'Islamabad',
   countryCode: 'PK',
 };
@@ -91,11 +93,14 @@ export const MARKETS = [
   { name: 'Pakistan', code: 'PK', note: '' },
 ];
 
-/** Main navigation (header) */
+/**
+ * Main navigation (header) — max 5 items including "Services".
+ * "How it works" points to the home-page section until its own page exists.
+ */
 export const NAV = [
-  { label: 'Pricing', href: '/pricing/' },
+  { label: 'How it works', href: '/#how-it-works' },
   { label: 'About', href: '/about/' },
-  { label: 'Blog', href: '/blog/' },
+  { label: 'Insights', href: '/blog/' },
   { label: 'Contact', href: '/contact/' },
 ];
 

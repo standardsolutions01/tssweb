@@ -4,6 +4,8 @@ const service: Service = {
   slug: 'bookkeeping-accounting',
   name: 'Bookkeeping & Accounting',
   summary: 'Monthly bookkeeping, reconciliations and management reports in Xero, QuickBooks or Zoho Books.',
+  icon: 'book',
+  menuLine: 'Monthly books and reports in Xero, QuickBooks and Zoho Books.',
   seoTitle: 'Outsourced Bookkeeping Services UK',
   seoDescription:
     'Outsourced bookkeeping services for UK, US, UAE, Australian and Pakistani businesses. Xero, QuickBooks and Zoho Books, monthly closes and clear reports.',

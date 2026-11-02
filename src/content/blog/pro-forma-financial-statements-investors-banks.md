@@ -2,6 +2,7 @@
 title: "Pro Forma Financial Statements: What Investors and Banks Expect"
 seoTitle: "Pro Forma Financial Statements: What Investors Expect"
 description: "What pro forma financial statements are, what investors and banks look for, how to build credible assumptions, and the mistakes that undermine a forecast."
+category: CFO
 pubDate: 2026-10-19
 related: ["financial-modelling", "fractional-cfo", "bookkeeping-accounting"]
 faqs:

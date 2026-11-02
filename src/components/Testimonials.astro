@@ -1,0 +1,68 @@
+---
+/**
+ * TESTIMONIALS (DESIGN.md §6.7)
+ * Renders NOTHING until at least one testimonial in src/data/testimonials.ts
+ * has `approved: true`. When live: one large quote at a time, calm fade,
+ * previous/next buttons, no auto-scroll. Without JavaScript all quotes simply
+ * show one under another.
+ */
+import { approvedTestimonials } from '../data/testimonials';
+const items = approvedTestimonials;
+---
+{items.length > 0 && (
+  <section class="section testimonials" data-reveal>
+    <div class="container narrow center">
+      <p class="eyebrow">Client feedback</p>
+      <div class="quotes" data-quotes>
+        {items.map((t, i) => (
+          <figure class:list={['quote', { 'is-active': i === 0 }]} data-quote>
+            <blockquote>“{t.quote}”</blockquote>
+            <figcaption><strong>{t.name}</strong><span>{t.role}, {t.company} · {t.country}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      {items.length > 1 && (
+        <div class="controls" data-quote-controls hidden>
+          <button type="button" class="ctrl" data-prev aria-label="Previous testimonial">←</button>
+          <span class="count" data-count aria-live="polite">1 / {items.length}</span>
+          <button type="button" class="ctrl" data-next aria-label="Next testimonial">→</button>
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-quotes]');
+  const quotes = Array.from(document.querySelectorAll<HTMLElement>('[data-quote]'));
+  const controls = document.querySelector<HTMLElement>('[data-quote-controls]');
+  if (wrap && quotes.length > 1 && controls) {
+    let i = 0;
+    wrap.classList.add('is-ready');
+    controls.hidden = false;
+    const count = controls.querySelector('[data-count]');
+    const show = (n: number) => {
+      quotes[i].classList.remove('is-active');
+      i = (n + quotes.length) % quotes.length;
+      quotes[i].classList.add('is-active');
+      if (count) count.textContent = `${i + 1} / ${quotes.length}`;
+    };
+    controls.querySelector('[data-prev]')?.addEventListener('click', () => show(i - 1));
+    controls.querySelector('[data-next]')?.addEventListener('click', () => show(i + 1));
+  }
+</script>
+
+<style>
+  .quotes { display: grid; gap: 40px; }
+  .quotes.is-ready { gap: 0; }
+  .quotes.is-ready .quote { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility .5s; }
+  .quotes.is-ready .quote.is-active { opacity: 1; visibility: visible; }
+  blockquote { margin: 0 0 24px; font-size: clamp(1.3rem, 1.1rem + .9vw, 1.75rem); line-height: 1.5; font-weight: 400; color: var(--ink); }
+  figcaption { display: grid; gap: 2px; color: var(--ink-soft); font-size: 1rem; }
+  figcaption strong { color: var(--ink); font-weight: 500; }
+  .controls { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 32px; }
+  .controls[hidden] { display: none; }
+  .ctrl { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--white); cursor: pointer; font-size: 1.1rem; color: var(--tss-blue); transition: border-color .2s; }
+  .ctrl:hover { border-color: var(--tss-blue); }
+  .count { font-size: .9rem; color: var(--tss-grey); min-width: 48px; }
+</style>
