@@ -5,50 +5,68 @@
 
 ---
 
+## ✅ Status checklist (last reviewed 2 November 2026)
+
+| Part | Item | Status | How it was confirmed |
+|---|---|---|---|
+| 1 | `main` branch exists in **tssweb** | ✅ Done | Checked on GitHub |
+| 1 | 2FA on GitHub, Cloudflare, Google, WhatsApp | ☐ Owner to confirm | See `docs/SECURITY.md` |
+| 2 | Cloudflare Pages project **tssweb** connected to GitHub, production branch `main` | ✅ Done | Domain shows Active on `tssweb.pages.dev` |
+| 2 | Preview builds for other branches switched on | ☐ Owner to confirm | Part 2, step 10 |
+| 3a | `thestandardsolutions.com` | ✅ Active · SSL enabled | Owner's screenshot |
+| 3b | `www.thestandardsolutions.com` | ☐ Was "Verifying" — needs the `www` CNAME record | Part 3b |
+| 3c | Redirect `www` → main address | ☐ Owner to confirm | Part 3c |
+| 3d | SSL Full (strict) · Always HTTPS · TLS 1.2 · DNSSEC · Bot Fight Mode | ☐ Owner to confirm | Part 3d |
+| 4 | Google Search Console verified | ✅ Done | Owner confirmed |
+| 4 | Sitemap `sitemap-index.xml` submitted | ☐ Owner to confirm | Part 4, step 7 |
+| 6a | Default branch = `main` | ✅ Done | Checked on GitHub |
+| 6b | Ruleset **protect-main** | ☐ Owner to confirm "Create" was clicked | Part 6b |
+| 7 | Dependabot updates #1 and #2 | Open, both passing — waiting for owner's go-ahead | GitHub |
+
+Update this table whenever a step is finished.
+
+---
+
 ## 0. The big picture
 
 | Piece | Job | Analogy |
 |---|---|---|
 | **GitHub** (`standardsolutions01/tssweb`) | Stores the website's files and their full history | The filing cabinet |
-| **Cloudflare Pages** | Reads the files from GitHub, builds the website and hosts it worldwide | The printer + the shop window |
+| **Cloudflare Pages** (project `tssweb`) | Reads the files from GitHub, builds the website and hosts it worldwide | The printer + the shop window |
 | **Cloudflare DNS** | Points `thestandardsolutions.com` to the hosted website | The street sign |
 | **Google Search Console** | Tells Google your site exists and shows search performance | Registering with the directory |
 
 **What happens on every change:**
 1. A change is saved ("pushed") to GitHub.
-2. Cloudflare notices within seconds and rebuilds the site (about 1 minute).
-3. If the change was on **`main`** → it goes live on your domain.
-   If it was on any **other branch** → you get a private **preview link** to check first.
+2. Cloudflare notices within seconds and rebuilds the site (about 1–2 minutes).
+3. If the change is on **`main`** → it goes live on your domain.
+   If it is on any **other branch** → you get a private **preview link** to check first.
 
-You never copy-paste code. GitHub and Cloudflare talk to each other automatically once connected (Part 2).
+You never copy-paste code. GitHub and Cloudflare talk to each other automatically.
 
 ---
 
-## Part 1 — Before you start (one-time checklist)
+## Part 1 — Accounts (one time)
 
 | ✔ | Item |
 |---|---|
-| ☐ | You can log in to **GitHub** (account that owns `standardsolutions01`) |
-| ☐ | You can log in to **Cloudflare** (account where `thestandardsolutions.com` DNS is managed) |
+| ✅ | You can log in to **GitHub** (account `standardsolutions01`) |
+| ✅ | You can log in to **Cloudflare** (account holding `thestandardsolutions.com`) |
 | ☐ | **Two-factor authentication (2FA)** is on for both — see `docs/SECURITY.md` |
-| ☐ | Claude has created the **`main`** branch after you said **"shift to main"** |
+| ✅ | The **`main`** branch exists in the **tssweb** repository |
 
-> **Why `main` first?** Cloudflare asks which branch is the "production" (live) branch. That should be `main`, so it must exist before you connect.
+> `main` is a **branch inside tssweb**, not a separate repository. Your other repositories are not affected.
 
 ---
 
-## Part 2 — Connect GitHub to Cloudflare Pages (one time, ~10 minutes)
+## Part 2 — Connect GitHub to Cloudflare Pages ✅ (done — kept for reference)
 
-1. Go to **https://dash.cloudflare.com** and log in.
-2. In the left menu, click **Workers & Pages** (it may sit under **Compute**).
-3. Click **Create** (or **Create application**).
-4. Choose the **Pages** tab → click **Import an existing Git repository** (or **Connect to Git**).
-5. Click **Connect GitHub**. A GitHub window opens:
-   - Choose the **standardsolutions01** account.
-   - Choose **Only select repositories** → pick **tssweb**. *(More secure than "All repositories".)*
-   - Click **Install & Authorize**.
-6. Back in Cloudflare, select **tssweb** → click **Begin setup**.
-7. Fill in the settings exactly:
+1. **https://dash.cloudflare.com** → log in.
+2. Left menu → **Workers & Pages** (may sit under **Compute**).
+3. **Create** → **Pages** tab → **Import an existing Git repository**.
+4. **Connect GitHub** → account **standardsolutions01** → **Only select repositories** → **tssweb** → **Install & Authorize**.
+5. Select **tssweb** → **Begin setup**.
+6. Settings:
 
    | Setting | Value |
    |---|---|
@@ -58,68 +76,72 @@ You never copy-paste code. GitHub and Cloudflare talk to each other automaticall
    | Build command | `npm run build` |
    | Build output directory | `dist` |
    | Root directory | *(leave empty)* |
-   | Environment variable (optional) | Name `NODE_VERSION`, value `22.23.4` |
+   | Environment variable (optional) | `NODE_VERSION` = `22.23.4` |
 
-8. Click **Save and Deploy**. Wait ~1–2 minutes until it says **Success**.
-9. Cloudflare shows a link like **`https://tssweb.pages.dev`** — open it. This is your website, not yet on your domain. **Review it here.**
-
-> **If the build fails:** open the build log, copy the red error text and paste it to Claude. The site has built-in safety checks; a failed build means nothing broken went live.
+7. **Save and Deploy** → wait for **Success**.
+8. The site is also reachable at **`https://tssweb.pages.dev`** (hidden from Google on purpose).
+9. If a build fails: open the build log, copy the red error text and send it to Claude. A failed build never replaces the live site.
+10. **Check preview builds are on:** **Workers & Pages → tssweb → Settings → Builds** (or *Build & deployments*) → **Branch control** →
+    - Production branch: **`main`**
+    - Automatic deployments: **Enabled**
+    - Preview branches: **All non-Production branches**
 
 ---
 
-## Part 3 — Attach your domain (thestandardsolutions.com + www)
+## Part 3 — Your domain
 
-Because your DNS is already on Cloudflare, this is mostly automatic.
+### 3a. Main address — `thestandardsolutions.com` ✅
+Shows **Active · SSL enabled** under **tssweb → Custom domains**. Nothing more to do. (The instruction box that opens under it can be ignored.)
 
-### 3a. The main domain
-1. In **Workers & Pages** → click the **tssweb** project.
-2. Open the **Custom domains** tab → **Set up a custom domain**.
-3. Type `thestandardsolutions.com` → **Continue**.
-4. Cloudflare shows the DNS record it will create → click **Activate domain**.
-   - If it warns that a record already exists (for example an old Gamma or parking record), go to **DNS → Records** for the domain, note down and delete the old `A`/`CNAME` record for `@`, then repeat this step.
-5. Status changes from *Initializing* to **Active** (usually minutes; up to 24 hours).
+### 3b. `www` version — needs one DNS record
+If **www.thestandardsolutions.com** shows **Verifying**:
 
-### 3b. The www version
-1. Same screen → **Set up a custom domain** → type `www.thestandardsolutions.com` → **Continue** → **Activate domain**.
+1. Cloudflare dashboard → click the domain **thestandardsolutions.com** (not the tssweb project).
+2. **DNS → Records**.
+3. Look for a row named **`www`**:
+   - **Exists** (e.g. left over from Gamma/parking) → click **Edit**.
+   - **Doesn't exist** → click **Add record**.
+4. Fill in:
 
-### 3c. Send www visitors to the main domain (recommended)
-1. In Cloudflare, open the **thestandardsolutions.com** domain (not the Pages project).
-2. Go to **Rules** → **Redirect Rules** (or **Rules → Overview → Templates**).
-3. Choose the template **"Redirect from WWW to root"** → **Deploy**.
+   | Field | Value |
+   |---|---|
+   | Type | `CNAME` |
+   | Name | `www` |
+   | Target | `tssweb.pages.dev` |
+   | Proxy status | **Proxied** (orange cloud **on**) |
+   | TTL | Auto |
+
+5. **Save** → back to **Workers & Pages → tssweb → Custom domains** → on the **www** row click **Complete DNS setup** → **Check DNS records**.
+6. Usually **Active** within 5–30 minutes (up to 24 hours).
+
+### 3c. Send `www` visitors to the main address
+Why: one main address is simpler for people and better for Google.
+1. Cloudflare → domain **thestandardsolutions.com** → **Rules** → **Redirect Rules** (or **Rules → Overview → Templates**).
+2. Template **"Redirect from WWW to root"** → **Deploy**.
 
 ### 3d. Security settings for the domain (2 minutes)
 | Where (inside the domain) | Setting |
 |---|---|
 | **SSL/TLS → Overview** | Encryption mode **Full (strict)** |
 | **SSL/TLS → Edge Certificates** | **Always Use HTTPS: On** · **Minimum TLS Version: 1.2** |
-| **DNS → Settings** | **DNSSEC: Enable** (follow the on-screen step if your registrar is not Cloudflare) |
+| **DNS → Settings** | **DNSSEC: Enable** |
 | **Security → Bots** | **Bot Fight Mode: On** |
-
-✅ Visit **https://thestandardsolutions.com** — your new site should load with a padlock.
 
 ---
 
-## Part 4 — Google Search Console (get found on Google)
+## Part 4 — Google Search Console ✅ (verified)
 
-1. Go to **https://search.google.com/search-console** and sign in with the business Google account.
-2. Click **Add property** → choose **Domain** (left box) → type `thestandardsolutions.com` → **Continue**.
-3. Google shows a **TXT record** starting with `google-site-verification=…`.
-   - If Google offers **"Start verification"** with Cloudflare, you can click it and approve — it adds the record for you. Otherwise:
-4. **Copy** the whole TXT value.
-5. In another tab, open **Cloudflare → thestandardsolutions.com → DNS → Records → Add record**:
+1. **https://search.google.com/search-console** → **Add property** → **Domain** → `thestandardsolutions.com`.
+2. Google offers **"Start verification"** with Cloudflare → a Cloudflare screen titled **"Authorize DNS records from Google"** appears (check the address bar shows `dash.cloudflare.com`) → **Authorize**. It adds one **TXT** record (`google-site-verification=…`). This is one-time; Google gets no ongoing access.
+3. **If you see "Unauthorized — Error 401"** on a `google.com/a/autodns/…` page: the browser is signed into several Google accounts.
+   - Check Cloudflare **DNS → Records** for the TXT record. If it is there, open Search Console in a **private/incognito window**, sign in with the business account only, and click **Verify**.
+   - If it is not there, add it by hand: **Add record** → Type `TXT` · Name `@` · Content = the code from Google · TTL Auto → **Save** → **Verify**.
+4. ⚠️ **Never delete** the `google-site-verification` TXT record — Google would lose proof of ownership.
+5. Left menu → **Sitemaps** → enter `sitemap-index.xml` → **Submit**.
+6. Optional: **URL Inspection** → `https://thestandardsolutions.com/` → **Request indexing**.
+7. Pages usually appear in Google within days to a few weeks. Check **Pages** and **Performance** monthly.
 
-   | Field | Value |
-   |---|---|
-   | Type | `TXT` |
-   | Name | `@` |
-   | Content | *(paste the google-site-verification value)* |
-   | TTL | Auto |
-
-6. Click **Save**. Go back to Google → click **Verify**. (If it fails, wait 10 minutes and try again.)
-7. In Search Console, open **Sitemaps** (left menu) → enter `sitemap-index.xml` → **Submit**.
-8. Optional: **URL Inspection** → paste `https://thestandardsolutions.com/` → **Request indexing**.
-
-Google usually starts showing pages within a few days to a few weeks.
+> Tip: do Google and Cloudflare set-up tasks in a **private window** to avoid account mix-ups.
 
 ---
 
@@ -128,24 +150,52 @@ Google usually starts showing pages within a few days to a few weeks.
 | Step | Who | What |
 |---|---|---|
 | 1 | You | Ask Claude for the change |
-| 2 | Claude | Makes it on a branch and gives you the **preview link** (`https://<branch>.tssweb.pages.dev`) |
-| 3 | You | Check the preview on phone and laptop |
-| 4 | You | Say **"shift to main"** |
-| 5 | Claude | Opens a pull request into `main` and merges it |
-| 6 | Cloudflare | Rebuilds and publishes to thestandardsolutions.com (~1–2 min) |
+| 2 | Claude | Makes it on the work branch (currently `claude/sleepy-einstein-x1ucce`) |
+| 3 | Cloudflare | Builds a **preview** (~2 min) |
+| 4 | You | **Workers & Pages → tssweb → Deployments** → find the newest row for that branch → **Visit** / **View details** → check on phone and laptop |
+| 5 | You | Say **"shift to main"** |
+| 6 | Claude | Opens a **pull request** into `main` and merges it once the `build` check passes (required by the ruleset) |
+| 7 | Cloudflare | Publishes to thestandardsolutions.com (~1–2 min) |
 
-**Undo a bad release:** Cloudflare → **Workers & Pages → tssweb → Deployments** → find the previous good deployment → **⋯ → Rollback to this deployment**. Instant, no code needed.
+**Undo a bad release:** **Workers & Pages → tssweb → Deployments** → previous good **Production** deployment → **⋯ → Rollback to this deployment**. Instant, no code needed.
 
 ---
 
-## Part 6 — Make `main` the default branch on GitHub (one time, after "shift to main")
+## Part 6 — GitHub settings
 
-1. GitHub → **standardsolutions01/tssweb** → **Settings** → **General**.
-2. Under **Default branch**, click the ⇄ switch icon → choose **main** → **Update** → confirm.
+### 6a. Default branch = `main` ✅
+GitHub → tssweb → **Settings → General → Default branch** → **main**. (Done and confirmed.)
 
-Then protect it (stops accidental or malicious changes going straight live):
+### 6b. Protect `main` (ruleset)
+GitHub → tssweb → **Settings → Rules → Rulesets → New ruleset → New branch ruleset**:
 
-1. **Settings → Branches → Add branch ruleset** (or **Add rule**).
-2. Name: `protect-main` · Target: `main` · Enforcement: **Active**.
-3. Tick: **Require a pull request before merging**, **Block force pushes**, **Restrict deletions**, and (optional) **Require status checks to pass** → add **build**.
-4. **Save**.
+| Setting | Value |
+|---|---|
+| Ruleset Name | `protect-main` |
+| Enforcement status | **Active** |
+| Bypass list | **Empty** (nobody can skip the rules) |
+| Target branches | **Default** (= `main`, because the default branch is `main`) |
+
+Rules to tick:
+
+| Rule | Tick? | Note |
+|---|---|---|
+| Restrict deletions | ✅ | |
+| Block force pushes | ✅ | |
+| Require a pull request before merging | ✅ | **Required approvals = 0** — you are the only person, and GitHub won't let you approve your own pull request |
+| Require status checks to pass | ✅ | **Add checks** → `build` |
+| Restrict creations / updates | ❌ | Would block all changes |
+| Require signed commits / deployments / code scanning | ❌ | Not needed |
+
+Click **Create**. If you ever change the default branch away from `main`, change the target to **Include by pattern → `main`**.
+
+---
+
+## Part 7 — Ongoing upkeep (a few minutes a month)
+
+| What | Where | Action |
+|---|---|---|
+| **Dependabot updates** | GitHub → tssweb → **Pull requests** | Safe tool/security updates. When the `build` check is green, tell Claude **"merge the Dependabot updates"** |
+| **Search performance** | Google Search Console → Performance / Pages | Look for errors; send screenshots to Claude if unsure |
+| **Domain renewal** | Wherever the domain was bought (or Cloudflare Registrar) | **Auto-renew ON** |
+| **Account security** | GitHub, Cloudflare, Google | Review who has access; remove anyone who no longer needs it |
