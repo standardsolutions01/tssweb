@@ -10,17 +10,19 @@
 | Part | Item | Status | How it was confirmed |
 |---|---|---|---|
 | 1 | `main` branch exists in **tssweb** | ✅ Done | Checked on GitHub |
-| 1 | 2FA on GitHub, Cloudflare, Google, WhatsApp | ☐ Owner to confirm | See `docs/SECURITY.md` |
+| 1 | 2FA on GitHub, Cloudflare, Google, WhatsApp | ✅ Done | Owner confirmed |
 | 2 | Cloudflare Pages project **tssweb** connected to GitHub, production branch `main` | ✅ Done | Domain shows Active on `tssweb.pages.dev` |
+| 2 | Production branch `main` + automatic deployments | ✅ Done | Owner confirmed |
 | 2 | Preview builds for other branches switched on | ☐ Owner to confirm | Part 2, step 10 |
 | 3a | `thestandardsolutions.com` | ✅ Active · SSL enabled | Owner's screenshot |
-| 3b | `www.thestandardsolutions.com` | ☐ Was "Verifying" — needs the `www` CNAME record | Part 3b |
-| 3c | Redirect `www` → main address | ☐ Owner to confirm | Part 3c |
-| 3d | SSL Full (strict) · Always HTTPS · TLS 1.2 · DNSSEC · Bot Fight Mode | ☐ Owner to confirm | Part 3d |
+| 3b | `www.thestandardsolutions.com` | ✅ Active | Owner confirmed |
+| 3c | Redirect `www` → main address | ✅ Done | Owner confirmed |
+| 3d | SSL Full (strict) · Always HTTPS · TLS 1.2 · DNSSEC | ✅ Done | Owner confirmed |
+| 3d | Bot Fight Mode | ☐ To do | Part 3d |
 | 4 | Google Search Console verified | ✅ Done | Owner confirmed |
 | 4 | Sitemap `sitemap-index.xml` submitted | ☐ Owner to confirm | Part 4, step 7 |
 | 6a | Default branch = `main` | ✅ Done | Checked on GitHub |
-| 6b | Ruleset **protect-main** | ☐ Owner to confirm "Create" was clicked | Part 6b |
+| 6b | Ruleset **protect-main** | ✅ Done | Owner confirmed |
 | 7 | Dependabot updates #1 and #2 | Open, both passing — waiting for owner's go-ahead | GitHub |
 
 Update this table whenever a step is finished.
@@ -125,7 +127,7 @@ Why: one main address is simpler for people and better for Google.
 | **SSL/TLS → Overview** | Encryption mode **Full (strict)** |
 | **SSL/TLS → Edge Certificates** | **Always Use HTTPS: On** · **Minimum TLS Version: 1.2** |
 | **DNS → Settings** | **DNSSEC: Enable** |
-| **Security → Bots** | **Bot Fight Mode: On** |
+| **Security → Settings** → filter **Bot traffic** (older screens: **Security → Bots**) | **Bot Fight Mode: On** — or type "Bot Fight Mode" in the dashboard search bar |
 
 ---
 
