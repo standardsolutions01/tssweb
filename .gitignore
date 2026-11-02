@@ -1,0 +1,25 @@
+# Build output and dependencies (re-created automatically, never commit)
+dist/
+node_modules/
+.astro/
+
+# Secrets — NEVER commit these (the repo is public)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Private client/business documents — keep them out of the repo
+private/
+clients/
+*.docx
+*.xlsx
+*.pdf
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+npm-debug.log*

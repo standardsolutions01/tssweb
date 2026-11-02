@@ -1,0 +1,62 @@
+---
+/** CONTACT — /contact/ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import Icon from '../components/Icon.astro';
+import { CONTACT, LINKS, whatsappUrl } from '../config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact/' }];
+---
+<BaseLayout
+  title="Contact Us"
+  description="Book a free consultation, send an enquiry or chat on WhatsApp with The Standard Solutions. We reply within one working day."
+  breadcrumbs={crumbs}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">Contact</p>
+      <h1>Contact The Standard Solutions</h1>
+      <p class="lead">Choose whatever is easiest for you. We aim to reply within one working day.</p>
+
+      <div class="grid grid--2 options">
+        <ExternalLink href={LINKS.booking} class="card option">
+          <Icon name="calendar" />
+          <h2>Book a free consultation</h2>
+          <p class="muted">Pick a time that suits you for a free, no-obligation video call.</p>
+          <span class="more">Open calendar →</span>
+        </ExternalLink>
+        <ExternalLink href={LINKS.enquiryForm} class="card option">
+          <Icon name="form" />
+          <h2>Send an enquiry</h2>
+          <p class="muted">Tell us about your business using our short enquiry form and we will come back with next steps or a quote.</p>
+          <span class="more">Open form →</span>
+        </ExternalLink>
+        <ExternalLink href={whatsappUrl} class="card option">
+          <Icon name="whatsapp" />
+          <h2>Chat on WhatsApp</h2>
+          <p class="muted">{CONTACT.phoneDisplay}</p>
+          <span class="more">Start chat →</span>
+        </ExternalLink>
+        <a href={`mailto:${CONTACT.email}`} class="card option">
+          <Icon name="mail" />
+          <h2>Email us</h2>
+          <p class="muted">{CONTACT.email}</p>
+          <span class="more">Send email →</span>
+        </a>
+      </div>
+
+      <p class="location"><Icon name="pin" /> Based in {CONTACT.locationPublic} — working with clients in the UK, US, UAE, Australia and Pakistan.</p>
+      <p class="safety">Please don't send passports, bank details or other sensitive documents through the enquiry form. We will share a secure way to send documents once we start working together.</p>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .options { margin-top: 40px; }
+  .option :global(svg) { width: 28px; height: 28px; color: var(--brand-blue); margin-bottom: 14px; }
+  .option h2 { font-size: 1.25rem; margin-bottom: 6px; }
+  .location { display: flex; align-items: center; gap: 8px; margin-top: 36px; color: var(--ink-soft); }
+  .location :global(svg) { width: 20px; height: 20px; color: var(--brand-red); flex: none; }
+  .safety { font-size: .92rem; color: var(--ink-soft); border-left: 3px solid var(--brand-red); padding: 4px 0 4px 14px; max-width: 760px; }
+</style>

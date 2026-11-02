@@ -1,0 +1,14 @@
+---
+/**
+ * Generates the six service pages, e.g. /uk-company-formation/
+ * Content: src/data/services/   Design: src/layouts/ServiceLayout.astro
+ */
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { SERVICES, type Service } from '../data/services';
+
+export function getStaticPaths() {
+  return SERVICES.map((service) => ({ params: { service: service.slug }, props: { service } }));
+}
+const { service } = Astro.props as { service: Service };
+---
+<ServiceLayout service={service} />

@@ -1,0 +1,142 @@
+---
+/**
+ * SERVICE PAGE LAYOUT — the design for all six service pages.
+ * Content comes from src/data/services/<service>.ts
+ *
+ * Section order (from the brief): hero → who it's for → what's included →
+ * process → pricing → FAQs → call to action → related services.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaButtons from '../components/CtaButtons.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import Icon from '../components/Icon.astro';
+import { LINKS } from '../config/site';
+import { getService, type Service } from '../data/services';
+import { serviceSchema, faqSchema } from '../lib/schema';
+
+interface Props { service: Service; }
+const { service: s } = Astro.props;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/#services' },
+  { name: s.name, href: `/${s.slug}/` },
+];
+const related = s.related.map(getService).filter(Boolean) as Service[];
+---
+<BaseLayout
+  title={s.seoTitle}
+  description={s.seoDescription}
+  breadcrumbs={crumbs}
+  schema={[serviceSchema(s), faqSchema(s.faqs)]}
+>
+  <section class="hero section">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">{s.name}</p>
+      <h1>{s.h1}</h1>
+      <p class="lead">{s.intro}</p>
+      <CtaButtons />
+      {s.notice && <p class="notice">{s.notice}</p>}
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Who it's for</p>
+        <h2>Built for founders like you</h2>
+      </div>
+      <ul class="ticks">{s.whoFor.map((w) => <li>{w}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What's included</p>
+        <h2>Everything you need, handled properly</h2>
+      </div>
+      <div class="grid grid--3">
+        {s.included.map((i) => (
+          <div class="card"><h3>{i.title}</h3><p class="muted">{i.text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>A clear, simple process</h2>
+      </div>
+      <ol class="steps">
+        {s.process.map((p) => <li><h3>{p.title}</h3><p>{p.text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="price-box">
+        <div>
+          <p class="eyebrow">Pricing</p>
+          <h2>Contact for pricing</h2>
+          <p class="muted">{s.pricingNote}</p>
+          {s.isSetupService && (
+            <p class="terms">Payment terms: <strong>60% advance</strong> to start, <strong>40% on completion</strong>.</p>
+          )}
+        </div>
+        <div class="price-actions">
+          <ExternalLink href={LINKS.enquiryForm} class="btn btn--primary"><Icon name="form" />Request a Quote</ExternalLink>
+          <a href="/pricing/" class="btn btn--outline">How our pricing works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container narrow">
+      <Faq items={s.faqs} />
+    </div>
+  </section>
+
+  <CtaBand title={`Talk to us about ${s.name}`} />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Related services</p>
+        <h2>Often combined with</h2>
+      </div>
+      <div class="grid grid--3">
+        {related.map((r) => (
+          <a class="card" href={`/${r.slug}/`}><h3>{r.name}</h3><p class="muted">{r.summary}</p><span class="more">Learn more →</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding-top: 40px; }
+  .hero h1 { max-width: 860px; }
+  .notice {
+    margin-top: 28px; max-width: 720px; font-size: .92rem; color: var(--ink-soft);
+    border-left: 3px solid var(--brand-red); padding: 4px 0 4px 14px;
+  }
+  .two-col { display: grid; gap: 28px; }
+  @media (min-width: 860px) { .two-col { grid-template-columns: 1fr 1.4fr; align-items: start; } }
+  .price-box {
+    border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(24px, 4vw, 44px);
+    display: grid; gap: 24px; align-items: center;
+  }
+  @media (min-width: 860px) { .price-box { grid-template-columns: 1.4fr 1fr; } }
+  .price-box h2 { margin-bottom: 10px; }
+  .terms { margin: 0; }
+  .price-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (min-width: 860px) { .price-actions { justify-content: flex-end; } }
+</style>

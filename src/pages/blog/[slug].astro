@@ -1,0 +1,61 @@
+---
+/** BLOG POST — /blog/<post-file-name>/ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getService, type Service } from '../../data/services';
+import { articleSchema, faqSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const { Content } = await render(post);
+const d = post.data;
+const path = `/blog/${post.id}/`;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+  { name: d.title, href: path },
+];
+const related = d.related.map(getService).filter(Boolean) as Service[];
+const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const schema: object[] = [articleSchema({ title: d.title, description: d.description, path, published: d.pubDate, updated: d.updatedDate })];
+if (d.faqs.length) schema.push(faqSchema(d.faqs));
+---
+<BaseLayout title={d.seoTitle ?? d.title} description={d.description} breadcrumbs={crumbs} schema={schema} ogType="article">
+  <article class="section">
+    <div class="container narrow">
+      <Breadcrumbs items={crumbs} />
+      <h1>{d.title}</h1>
+      <p class="meta">
+        By The Standard Solutions team · <time datetime={d.pubDate.toISOString()}>{fmt(d.pubDate)}</time>
+        {d.updatedDate && <> · Updated <time datetime={d.updatedDate.toISOString()}>{fmt(d.updatedDate)}</time></>}
+      </p>
+      <div class="prose"><Content /></div>
+
+      {d.faqs.length > 0 && <div class="faq-wrap"><Faq items={d.faqs} /></div>}
+
+      <p class="note">This guide is general information, not legal or tax advice. Rules and fees change — always check the official government website and take professional advice for your situation.</p>
+
+      {related.length > 0 && (
+        <div class="related">
+          <h2>Related services</h2>
+          <div class="grid grid--2">
+            {related.map((r) => <a class="card" href={`/${r.slug}/`}><h3>{r.name}</h3><p class="muted">{r.summary}</p><span class="more">Learn more →</span></a>)}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .meta { color: var(--brand-grey); font-size: .95rem; margin-bottom: 36px; }
+  .faq-wrap { margin-top: 56px; }
+  .note { margin-top: 40px; font-size: .92rem; color: var(--ink-soft); border-left: 3px solid var(--brand-red); padding: 4px 0 4px 14px; }
+  .related { margin-top: 56px; }
+</style>

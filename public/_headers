@@ -1,0 +1,31 @@
+# ============================================================
+#  SECURITY HEADERS — applied by Cloudflare Pages to every page
+# ------------------------------------------------------------
+#  These tell browsers to block common attacks (clickjacking,
+#  code injection, insecure connections). The site runs NO
+#  JavaScript, so the policy below can be very strict.
+#
+#  If you ever add a third-party tool (chat widget, analytics,
+#  embedded form), you must add its domain to the
+#  Content-Security-Policy line, or the browser will block it.
+#  See docs/SECURITY.md.
+# ============================================================
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+# Long browser caching for built files (their names change on every update)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Preview copies (*.pages.dev) should not appear in Google
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

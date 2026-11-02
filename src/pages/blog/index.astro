@@ -1,0 +1,49 @@
+---
+/** BLOG INDEX — /blog/ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog/' }];
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout
+  title="Company Formation & Accounting Guides"
+  description="Plain-English guides on UK and US company formation, Pakistan registration, bookkeeping and financial models for founders."
+  breadcrumbs={crumbs}
+>
+  <section class="section">
+    <div class="container narrow">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">Blog</p>
+      <h1>Company formation and accounting guides</h1>
+      <p class="lead">Practical, plain-English guides for founders setting up and running companies across borders.</p>
+      <ul class="posts">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}/`}>
+              <time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time>
+              <h2>{p.data.title}</h2>
+              <p>{p.data.description}</p>
+              <span class="more">Read guide →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .posts { list-style: none; padding: 0; margin: 40px 0 0; }
+  .posts li { border-top: 1px solid var(--line); }
+  .posts li:last-child { border-bottom: 1px solid var(--line); }
+  .posts a { display: block; padding: 28px 0; text-decoration: none; color: inherit; }
+  .posts a:hover h2 { color: var(--brand-blue); }
+  .posts time { font-size: .85rem; color: var(--brand-grey); }
+  .posts h2 { font-size: 1.4rem; margin: 6px 0 8px; }
+  .posts p { color: var(--ink-soft); margin-bottom: 8px; }
+  .more { color: var(--brand-blue); font-weight: 600; font-size: .95rem; }
+</style>

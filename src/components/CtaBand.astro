@@ -1,0 +1,27 @@
+---
+/** Dark call-to-action band shown near the bottom of most pages. */
+import CtaButtons from './CtaButtons.astro';
+interface Props { title?: string; text?: string; }
+const {
+  title = 'Ready to get your finances in order?',
+  text = 'Book a free, no-obligation consultation. We will listen, ask the right questions and tell you honestly how we can help.',
+} = Astro.props;
+---
+<section class="cta-band">
+  <div class="container center">
+    <h2>{title}</h2>
+    <p class="lead">{text}</p>
+    <CtaButtons variant="dark" />
+  </div>
+</section>
+<style>
+  .cta-band { background: var(--brand-blue); color: #fff; padding: clamp(56px, 8vw, 88px) 0; position: relative; overflow: hidden; }
+  .cta-band::after {
+    content: ''; position: absolute; width: 420px; height: 420px; right: -140px; bottom: -220px;
+    border-radius: 50%; border: 3px solid transparent; border-top-color: var(--brand-red); border-left-color: var(--brand-red);
+    transform: rotate(20deg); opacity: .9; pointer-events: none;
+  }
+  .cta-band h2 { color: #fff; }
+  .cta-band .lead { color: rgba(255,255,255,.85); }
+  .cta-band .container { position: relative; z-index: 1; }
+</style>

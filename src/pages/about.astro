@@ -1,0 +1,112 @@
+---
+/** ABOUT — /about/  (written from the company's perspective) */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE, CONTACT } from '../config/site';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'About', href: '/about/' }];
+const values = [
+  { title: 'Accuracy first', text: 'Reconciled, reviewed numbers you can rely on — every month, not just at year-end.' },
+  { title: 'Plain English', text: 'We explain what matters, what is due and why, without jargon.' },
+  { title: 'Responsive', text: 'Clear timelines, regular updates and quick replies across time zones.' },
+  { title: 'Honest about scope', text: 'If something needs a lawyer or a locally registered agent, we say so and help you find one.' },
+];
+const expertise = [
+  'US GAAP and IFRS reporting',
+  'UK FRS 102, Companies House and HMRC requirements',
+  'UK and UAE VAT-ready bookkeeping',
+  'Australian GST bookkeeping (bookkeeping & advisory only)',
+  'Pakistan SECP and FBR compliance',
+  'Multi-entity and multi-currency accounting',
+  'Payroll and accounts payable workflows',
+  'Cash flow forecasting and financial modelling',
+];
+const platforms = ['Xero', 'QuickBooks Online', 'Zoho Books', 'MYOB', 'FreshBooks', 'QuickBooks Desktop', 'Microsoft Dynamics GP', 'Bill.com', 'Ramp', 'Expensify', 'Stripe'];
+---
+<BaseLayout
+  title="About Us"
+  description="The Standard Solutions is an Islamabad-based accounting and business-formation firm serving founders in the UK, US, UAE, Australia and Pakistan."
+  breadcrumbs={crumbs}
+>
+  <section class="section">
+    <div class="container about-hero">
+      <div>
+        <Breadcrumbs items={crumbs} />
+        <p class="eyebrow">About us</p>
+        <h1>About The Standard Solutions</h1>
+        <p class="lead">We are an accounting, bookkeeping and business-formation firm based in {CONTACT.locationPublic}, supporting founders, small businesses and accounting practices in the UK, US, UAE, Australia and Pakistan.</p>
+        <p>Too many founders juggle a formation agent, a bookkeeper and an adviser who never speak to each other. We built {SITE.name} to be the one partner that takes a business from registration to reporting — setting up the company properly, keeping the books accurate and giving owners the financial clarity to make good decisions.</p>
+        <p>Our team works remotely with clients across five countries, using the leading cloud accounting platforms and a consistent, documented process for every engagement.</p>
+      </div>
+      <div class="about-logo" aria-hidden="true"><img src="/images/logo-full.webp" alt="" width="298" height="306" /></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How we work</p>
+        <h2>What you can expect from us</h2>
+      </div>
+      <div class="grid grid--2">
+        {values.map((v) => <div class="card"><h3>{v.title}</h3><p class="muted">{v.text}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Expertise</p>
+        <h2>Standards and requirements we work with</h2>
+        <p class="muted">Our team brings more than eight years of experience across audit, accounts payable, payroll, financial reporting and outsourced accounting for international clients.</p>
+      </div>
+      <ul class="ticks ticks--2col">{expertise.map((e) => <li>{e}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Platforms</p>
+        <h2>Fluent in the tools you already use</h2>
+      </div>
+      <ul class="chips">{platforms.map((p) => <li>{p}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Leadership</p>
+        <h2>Qualified and certified</h2>
+      </div>
+      <div>
+        <p>{SITE.name} is led by <strong>Syed M. Armagham Zia</strong>, who founded the firm after years of serving international clients remotely.</p>
+        <ul class="ticks">
+          <li>ACMA — Associate Management Accountant (ICMA Pakistan)</li>
+          <li>Certified Xero Advisor</li>
+          <li>Advanced QuickBooks Online ProAdvisor</li>
+          <li>Financial Modelling &amp; Valuation Analyst (FMVA) — in progress, Corporate Finance Institute</li>
+          <li>8+ years serving UK, US, UAE, Australian and Pakistani clients</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Let's see how we can help" />
+</BaseLayout>
+<style>
+  .about-hero { display: grid; gap: 40px; align-items: center; }
+  .about-logo { display: none; }
+  @media (min-width: 960px) {
+    .about-hero { grid-template-columns: 1.6fr 1fr; }
+    .about-logo { display: flex; justify-content: center; }
+    .about-logo img { width: 280px; }
+  }
+  .two-col { display: grid; gap: 28px; }
+  @media (min-width: 860px) { .two-col { grid-template-columns: 1fr 1.4fr; align-items: start; } }
+  .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chips li { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-weight: 500; }
+</style>

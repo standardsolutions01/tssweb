@@ -1,0 +1,16 @@
+# Dependabot: GitHub automatically opens pull requests to update
+# dependencies (especially security fixes). Review & merge when the build passes.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

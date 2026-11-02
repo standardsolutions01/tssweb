@@ -1,0 +1,91 @@
+---
+/** PRICING — /pricing/  (all services are "Contact for pricing") */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import { LINKS, PAYMENTS } from '../config/site';
+import { SERVICES } from '../data/services';
+import { faqSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Pricing', href: '/pricing/' }];
+const faqs = [
+  { q: 'Why don\'t you publish fixed prices?', a: 'Every business is different. Formation costs depend on the country, state and structure, and accounting fees depend on transaction volume and complexity. A short conversation lets us give you an accurate, fixed quote instead of a misleading "from" price.' },
+  { q: 'Are government and partner fees included?', a: 'Official fees (for example Companies House, US state or SECP fees) and third-party partner fees are shown separately in your quote and passed on at cost.' },
+  { q: 'How do I pay?', a: 'We send an invoice with payment details. For one-time setup services we ask for 60% in advance and 40% on completion. Card payments will be available soon.' },
+  { q: 'Is the first consultation really free?', a: 'Yes. The first consultation is free and there is no obligation to go ahead.' },
+];
+---
+<BaseLayout
+  title="Pricing"
+  description="Transparent, fixed quotes for company formation, bookkeeping, financial models and fractional CFO support. Contact us for pricing."
+  breadcrumbs={crumbs}
+  schema={[faqSchema(faqs)]}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">Pricing</p>
+      <h1>Pricing — clear quotes, no surprises</h1>
+      <p class="lead">Every engagement is quoted individually after a free consultation, so you only pay for what you need. Contact us for pricing on any service.</p>
+      <div class="btn-row">
+        <ExternalLink href={LINKS.enquiryForm} class="btn btn--primary"><Icon name="form" />Request a Quote</ExternalLink>
+        <ExternalLink href={LINKS.booking} class="btn btn--outline"><Icon name="calendar" />Book a Free Consultation</ExternalLink>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="price-table" role="table" aria-label="Services and pricing">
+        {SERVICES.map((s) => (
+          <div class="row" role="row">
+            <div role="cell" class="svc"><a href={`/${s.slug}/`}>{s.name}</a><span class="muted">{s.isSetupService ? 'One-time fee' : 'Monthly fee'}</span></div>
+            <div role="cell" class="price">Contact for pricing</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid--2">
+      <div class="card">
+        <h2 class="h3">Payment terms</h2>
+        <ul class="ticks">
+          <li><strong>One-time setup services:</strong> 60% advance to start, 40% on completion.</li>
+          <li><strong>Monthly services:</strong> invoiced monthly as agreed in your proposal.</li>
+          <li>Government and partner fees are listed separately and passed on at cost.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2 class="h3">Ways to pay</h2>
+        <ul class="ticks">
+          <li>Bank transfer — details are on your invoice.</li>
+          {PAYMENTS.safepayEnabled && PAYMENTS.safepayLink
+            ? <li><ExternalLink href={PAYMENTS.safepayLink}>Pay by card (Safepay)</ExternalLink></li>
+            : <li>Card payments via Safepay — <em>coming soon</em>.</li>}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container narrow"><Faq items={faqs} title="Pricing questions" /></div>
+  </section>
+
+  <CtaBand title="Get a quote in one conversation" />
+</BaseLayout>
+<style>
+  .h3 { font-size: 1.25rem; }
+  .price-table { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding: 20px 24px; border-bottom: 1px solid var(--line); align-items: center; }
+  .row:last-child { border-bottom: 0; }
+  .svc { display: flex; flex-direction: column; }
+  .svc a { font-weight: 600; font-size: 1.08rem; text-decoration: none; color: var(--ink); }
+  .svc a:hover { color: var(--brand-blue); }
+  .svc .muted { font-size: .9rem; }
+  .price { font-weight: 600; color: var(--brand-blue); }
+</style>

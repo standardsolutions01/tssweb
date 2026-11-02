@@ -1,0 +1,14 @@
+---
+/**
+ * Link to ANOTHER website (Google Calendar, Google Form, WhatsApp, etc.).
+ * Always opens in a new tab, and uses rel="noopener noreferrer" so the
+ * other site cannot control or read this one (a standard security measure).
+ */
+interface Props {
+  href: string;
+  class?: string;
+  'aria-label'?: string;
+}
+const { href, class: className, ...rest } = Astro.props;
+---
+<a href={href} class={className} target="_blank" rel="noopener noreferrer" {...rest}><slot /><span class="visually-hidden"> (opens in a new tab)</span></a>

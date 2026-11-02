@@ -1,0 +1,160 @@
+---
+/** HOME PAGE — thestandardsolutions.com/ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaButtons from '../components/CtaButtons.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE, MARKETS } from '../config/site';
+import { SERVICES } from '../data/services';
+import { approvedTestimonials } from '../data/testimonials';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+// Formation services first, then ongoing services.
+const formation = SERVICES.filter((s) => s.serviceType.startsWith('Company'));
+const ongoing = SERVICES.filter((s) => !formation.includes(s));
+
+const steps = [
+  { title: 'Free consultation', text: 'A short call to understand your business, goals and deadlines.' },
+  { title: 'Clear proposal', text: 'A written scope and fixed quote — no surprises later.' },
+  { title: 'We get to work', text: 'Formation, onboarding or modelling, with updates at each stage.' },
+  { title: 'Ongoing support', text: 'Monthly books, reports and finance support as you grow.' },
+];
+const credentials = [
+  { title: 'ACMA qualified', text: 'Associate Management Accountant (ICMA Pakistan).' },
+  { title: 'Certified Xero Advisor', text: 'Certified on Xero, the cloud platform used by many UK and Australian businesses.' },
+  { title: 'Advanced QuickBooks ProAdvisor', text: 'Advanced certification on QuickBooks Online.' },
+  { title: 'Five markets, one team', text: 'Experience with UK, US, UAE, Australian and Pakistani requirements.' },
+];
+---
+<BaseLayout title="Company Formation & Accounting" description="Company formation, bookkeeping and finance support for founders in the UK, US, UAE, Australia and Pakistan — one partner from registration to reporting.">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Formation · Accounting · Finance</p>
+        <h1>Company formation and accounting, from registration to reporting</h1>
+        <p class="lead">We help founders set up companies in the UK, US and Pakistan — then keep the books, reports and finances in order as the business grows.</p>
+        <CtaButtons />
+        <p class="tagline">“{SITE.tagline}”</p>
+      </div>
+      <div class="hero-logo" aria-hidden="true">
+        <img src="/images/logo-full.webp" alt="" width="298" height="306" />
+      </div>
+    </div>
+  </section>
+
+  <section class="markets section--tight">
+    <div class="container">
+      <p class="markets-label">Serving clients in</p>
+      <ul>{MARKETS.map((m) => <li>{m.name}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Everything from day one to year-end</h2>
+        <p class="lead">Start with a company, stay for the accounting. One partner, one point of contact.</p>
+      </div>
+
+      <h3 class="group-title">Set up your company</h3>
+      <div class="grid grid--3">
+        {formation.map((s) => (
+          <a class="card" href={`/${s.slug}/`}><h3>{s.name}</h3><p class="muted">{s.summary}</p><span class="more">Learn more →</span></a>
+        ))}
+      </div>
+
+      <h3 class="group-title">Run and grow it</h3>
+      <div class="grid grid--3">
+        {ongoing.map((s) => (
+          <a class="card" href={`/${s.slug}/`}><h3>{s.name}</h3><p class="muted">{s.summary}</p><span class="more">Learn more →</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How we work</p>
+        <h2>Simple, transparent, on time</h2>
+      </div>
+      <ol class="steps">{steps.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Why TSS</p>
+        <h2>Qualified, certified and focused on you</h2>
+        <p class="lead">Our team brings more than eight years of hands-on accounting experience across five countries and the leading cloud platforms.</p>
+      </div>
+      <div class="grid grid--4 creds">
+        {credentials.map((c) => <div class="card"><h3>{c.title}</h3><p class="muted">{c.text}</p></div>)}
+      </div>
+      <p class="platforms"><strong>Platforms:</strong> Xero · QuickBooks Online · Zoho Books · MYOB · FreshBooks · Bill.com · Ramp · Stripe</p>
+    </div>
+  </section>
+
+  {approvedTestimonials.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">Client feedback</p>
+          <h2>What our clients say</h2>
+        </div>
+        <div class="grid grid--3">
+          {approvedTestimonials.map((t) => (
+            <figure class="card quote">
+              <blockquote>“{t.quote}”</blockquote>
+              <figcaption><strong>{t.name}</strong><br /><span class="muted">{t.role}, {t.company} · {t.country}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Guides</p>
+          <h2>From the blog</h2>
+        </div>
+        <div class="grid grid--3">
+          {posts.map((p) => (
+            <a class="card" href={`/blog/${p.id}/`}><h3>{p.data.title}</h3><p class="muted">{p.data.description}</p><span class="more">Read guide →</span></a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero { padding: clamp(48px, 8vw, 104px) 0 clamp(40px, 6vw, 72px); }
+  .hero-grid { display: grid; gap: 40px; align-items: center; }
+  .hero h1 { max-width: 760px; }
+  .tagline { margin-top: 28px; color: var(--brand-grey); font-style: italic; }
+  .hero-logo { display: none; }
+  @media (min-width: 960px) {
+    .hero-grid { grid-template-columns: 1.5fr 1fr; }
+    .hero-logo { display: flex; justify-content: center; }
+    .hero-logo img { width: 320px; }
+  }
+  .markets { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .markets .container { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+  .markets-label { margin: 0; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--brand-grey); font-weight: 600; }
+  .markets ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 0; padding: 0; font-weight: 600; }
+  .group-title { font-size: .95rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-grey); margin: 36px 0 16px; }
+  .platforms { margin-top: 28px; color: var(--ink-soft); }
+  .quote blockquote { margin: 0 0 16px; font-size: 1.05rem; }
+  .quote figcaption { font-size: .95rem; }
+</style>

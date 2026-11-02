@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects: <from> <to> <status>
+# The sitemap is generated as /sitemap-index.xml; this makes /sitemap.xml work too.
+/sitemap.xml /sitemap-index.xml 301

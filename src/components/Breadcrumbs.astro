@@ -1,0 +1,19 @@
+---
+/** Visible breadcrumb trail ("Home / Services / UK Company Formation"). */
+export interface Crumb { name: string; href: string; }
+interface Props { items: Crumb[]; }
+const { items } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class="breadcrumbs">
+  <ol>
+    {items.map((c, i) => (
+      <li>{i < items.length - 1 ? <a href={c.href}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>
+    ))}
+  </ol>
+</nav>
+<style>
+  .breadcrumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0 0 22px; font-size: .9rem; color: var(--ink-soft); }
+  .breadcrumbs li + li::before { content: '/'; margin-right: 6px; color: #b3b8c0; }
+  .breadcrumbs a { color: var(--ink-soft); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--brand-blue); text-decoration: underline; }
+</style>

@@ -1,0 +1,20 @@
+---
+/** Layout for legal pages (Privacy Policy, Terms of Service). */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { LEGAL } from '../config/site';
+interface Props { title: string; description: string; path: string; }
+const { title, description, path } = Astro.props;
+const crumbs = [{ name: 'Home', href: '/' }, { name: title, href: path }];
+---
+<BaseLayout title={title} description={description} breadcrumbs={crumbs}>
+  <section class="section">
+    <div class="container narrow">
+      <Breadcrumbs items={crumbs} />
+      <h1>{title}</h1>
+      <p class="updated">Last updated: {LEGAL.policiesLastUpdated}</p>
+      <div class="prose"><slot /></div>
+    </div>
+  </section>
+</BaseLayout>
+<style>.updated { color: var(--brand-grey); margin-bottom: 32px; }</style>

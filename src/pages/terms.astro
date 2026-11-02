@@ -1,0 +1,74 @@
+---
+/**
+ * TERMS OF SERVICE — /terms/
+ * Business details come from src/config/site.ts. When you change these
+ * terms, update LEGAL.policiesLastUpdated in that file.
+ */
+import PolicyLayout from '../layouts/PolicyLayout.astro';
+import { CONTACT, LEGAL, SITE, DISCLAIMER } from '../config/site';
+const mail = `mailto:${CONTACT.email}`;
+---
+<PolicyLayout title="Terms of Service" path="/terms/" description="Terms that apply to the use of The Standard Solutions website and our accounting, bookkeeping and business-formation services.">
+  <p>These terms apply to your use of <a href="/">{SITE.url.replace('https://', '')}</a> and to services provided by {LEGAL.tradingName}. Each engagement is also governed by the written proposal or engagement letter we agree with you. If there is a conflict, the proposal or engagement letter takes priority.</p>
+
+  <h2>1. About us</h2>
+  <p>{LEGAL.tradingName} is a {LEGAL.entityType} operated by {LEGAL.proprietor} (registration number {LEGAL.registrationNumber}), with its address at {LEGAL.fullAddress}. Contact: <a href={mail}>{CONTACT.email}</a>.</p>
+
+  <h2>2. Our services and their limits</h2>
+  <p>{DISCLAIMER}</p>
+  <ul>
+    <li><strong>UK company formation:</strong> filings with Companies House are made with and through authorised formation partners.</li>
+    <li><strong>US LLC formation:</strong> registered-agent service is provided via our partner. We are not a US registered agent and do not provide US legal or tax advice.</li>
+    <li><strong>Australia:</strong> we provide bookkeeping and advisory services only. We are not a registered tax agent or BAS agent, and lodgements are made by your registered agent.</li>
+    <li><strong>Pakistan:</strong> we provide registration and compliance support with SECP and FBR.</li>
+  </ul>
+  <p>Approvals by registries, tax authorities, banks and payment providers are outside our control. We cannot guarantee that a company, tax number, bank account or other application will be approved or processed within a particular time.</p>
+
+  <h2>3. Quotes and payment</h2>
+  <ul>
+    <li><strong>One-time setup services:</strong> 60% of the fee is payable in advance before work begins, and 40% on completion.</li>
+    <li><strong>Monthly services:</strong> invoiced monthly as set out in your proposal.</li>
+    <li>Government, registry and third-party partner fees are shown separately and passed on at cost.</li>
+    <li>Invoices are payable within the period stated on the invoice. We may pause work while invoices are overdue.</li>
+  </ul>
+
+  <h2>4. Your responsibilities</h2>
+  <ul>
+    <li>Provide complete, accurate and timely information and documents.</li>
+    <li>Complete any identity verification required of directors, shareholders and owners.</li>
+    <li>Review documents and filings we prepare before they are submitted, and tell us promptly about any errors.</li>
+    <li>Remain responsible for your business's legal and tax obligations and for decisions you make using our work.</li>
+  </ul>
+
+  <h2>5. Cancellation and refunds</h2>
+  <ul>
+    <li>If you cancel a setup service before we start work, we will refund your advance less any third-party fees already paid.</li>
+    <li>Once work has started, the advance covers work completed and is non-refundable unless we agree otherwise in writing.</li>
+    <li>Government and partner fees are non-refundable once an application has been submitted.</li>
+    <li>Monthly services can be ended by either party with 30 days' written notice, unless your proposal says otherwise.</li>
+  </ul>
+
+  <h2>6. Confidentiality</h2>
+  <p>We keep your information confidential and use it only to provide our services, except where disclosure is required by law or needed to complete your instructions (for example, filing with a registry). Our <a href="/privacy/">Privacy Policy</a> explains how we handle personal information.</p>
+
+  <h2>7. Intellectual property</h2>
+  <p>Website content, branding and materials belong to {LEGAL.tradingName}. Deliverables prepared for you, such as financial models and reports, may be used by your business once our fees for that work are paid in full.</p>
+
+  <h2>8. Website information</h2>
+  <p>Content on this website, including blog articles, is general information only and is not legal, tax or financial advice. Rules and fees change; always check official sources and take advice for your situation. Links to other websites are provided for convenience and we are not responsible for their content.</p>
+
+  <h2>9. Liability</h2>
+  <p>We provide our services with reasonable skill and care. To the extent permitted by law, our total liability for any claim relating to a service is limited to the fees you paid us for that service in the three months before the claim arose. We are not liable for indirect or consequential losses, or for losses caused by inaccurate information supplied to us, or by the acts or delays of registries, authorities, banks or third-party providers. Nothing in these terms limits liability that cannot legally be limited.</p>
+
+  <h2>10. Events outside our control</h2>
+  <p>We are not responsible for delays caused by events outside our reasonable control, including system outages, government or registry delays, and internet or power failures.</p>
+
+  <h2>11. Governing law</h2>
+  <p>These terms are governed by the laws of Pakistan, and the courts of Pakistan have jurisdiction over any dispute, unless your engagement letter states otherwise.</p>
+
+  <h2>12. Changes</h2>
+  <p>We may update these terms from time to time. The "last updated" date shows the latest version. Changes do not affect engagements already agreed in writing.</p>
+
+  <h2>13. Contact</h2>
+  <p>Questions about these terms? Email <a href={mail}>{CONTACT.email}</a>.</p>
+</PolicyLayout>
