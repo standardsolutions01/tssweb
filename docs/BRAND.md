@@ -64,7 +64,7 @@ Rules: keep clear space around the logo; don't stretch, recolour, add shadows or
 
 ## Voice
 Plain English · confident, not salesy · short sentences · UK spelling · explain, don't jargon.
-Calls to action: **Book a Free Consultation** · **Chat on WhatsApp** · **Request a Quote**.
+Calls to action: **Book a Strategy Call** · **Let's Chat** (WhatsApp) · **Request a Quote**. Never put "free" on a button; say "free 30-minute strategy call" in the text instead.
 
 ## ⚠️ Compliance — must follow
 | Never say | Say instead |

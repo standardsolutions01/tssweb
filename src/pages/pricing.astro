@@ -15,7 +15,7 @@ const faqs = [
   { q: 'Why don\'t you publish fixed prices?', a: 'Every business is different. Formation costs depend on the country, state and structure, and accounting fees depend on transaction volume and complexity. A short conversation lets us give you an accurate, fixed quote instead of a misleading "from" price.' },
   { q: 'Are government and partner fees included?', a: 'Official fees (for example Companies House, US state or SECP fees) and third-party partner fees are shown separately in your quote and passed on at cost.' },
   { q: 'How do I pay?', a: 'We send an invoice with payment details. For one-time setup services we ask for 60% in advance and 40% on completion. Card payments will be available soon.' },
-  { q: 'Is the first consultation really free?', a: 'Yes. The first consultation is free and there is no obligation to go ahead.' },
+  { q: 'Is the strategy call really free?', a: 'Yes. The 30-minute strategy call is free and there is no obligation to go ahead.' },
 ];
 ---
 <BaseLayout
@@ -29,10 +29,10 @@ const faqs = [
       <Breadcrumbs items={crumbs} />
       <p class="eyebrow">Pricing</p>
       <h1>Pricing — clear quotes, no surprises</h1>
-      <p class="lead">Every engagement is quoted individually after a free consultation, so you only pay for what you need. Contact us for pricing on any service.</p>
+      <p class="lead">Every engagement is quoted individually after a free 30-minute strategy call, so you only pay for what you need. Contact us for pricing on any service.</p>
       <div class="btn-row">
         <ExternalLink href={LINKS.enquiryForm} class="btn btn--primary"><Icon name="form" />Request a Quote</ExternalLink>
-        <ExternalLink href={LINKS.booking} class="btn btn--outline"><Icon name="calendar" />Book a Free Consultation</ExternalLink>
+        <ExternalLink href={LINKS.booking} class="btn btn--outline"><Icon name="calendar" />Book a Strategy Call</ExternalLink>
       </div>
     </div>
   </section>

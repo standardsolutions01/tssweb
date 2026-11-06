@@ -28,7 +28,7 @@ const service: Service = {
     { title: 'Banking & compliance guidance', text: 'Guidance on US banking and payment options, plus a calendar of ongoing state and federal filings.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We understand your business model and recommend a state.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We understand your business model and recommend a state.' },
     { title: 'Proposal & advance', text: 'Fixed quote; work starts after the 60% advance.' },
     { title: 'State filing', text: 'We prepare and file your formation documents via our partner.' },
     { title: 'EIN & handover', text: 'We support your EIN application and hand over documents and next steps.' },
