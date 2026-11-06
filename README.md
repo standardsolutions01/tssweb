@@ -15,6 +15,7 @@ Company formation, bookkeeping and finance support for founders in the UK, US, U
 | **A marketer / designer / agency** | [`docs/BRAND.md`](docs/BRAND.md) — logo, colours, fonts, approved wording |
 | **Setting up hosting / domain / Google** | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) |
 | **Checking what's still missing** | [`PLACEHOLDERS.md`](PLACEHOLDERS.md) |
+| **Changing the live website** (everyone) | [`docs/CHANGE-REQUESTS.md`](docs/CHANGE-REQUESTS.md) — the locked process · history in [`docs/CHANGELOG.md`](docs/CHANGELOG.md) |
 
 ---
 
