@@ -41,7 +41,7 @@ const socials = [
         <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
         <li><ExternalLink href={whatsappUrl}>WhatsApp {CONTACT.phoneDisplay}</ExternalLink></li>
         <li>{CONTACT.locationPublic}</li>
-        <li><ExternalLink href={LINKS.booking}>Book a free consultation</ExternalLink></li>
+        <li><ExternalLink href={LINKS.booking}>Book a strategy call</ExternalLink></li>
         {socials.map((s) => <li><ExternalLink href={s.href}>{s.label}</ExternalLink></li>)}
       </ul>
     </div>

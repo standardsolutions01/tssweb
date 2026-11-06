@@ -26,7 +26,7 @@ const service: Service = {
     { title: 'Editable Excel or Google Sheets', text: 'A clean, documented model you own and can update yourself.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We agree the purpose, audience and timeline.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We agree the purpose, audience and timeline.' },
     { title: 'Proposal & advance', text: 'Fixed quote; work starts after the 60% advance.' },
     { title: 'Build & review', text: 'We build the model and review the assumptions with you.' },
     { title: 'Final delivery', text: 'You receive the final model, summary outputs and a walkthrough.' },

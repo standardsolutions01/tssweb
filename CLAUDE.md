@@ -46,6 +46,7 @@
 ## A5. Content decisions (override Part B §3, §8)
 - **Pricing:** every service shows **"Contact for pricing"** — no `[PRICE]` placeholders.
 - **Contact:** no embedded form / form endpoint. Buttons link to the Google Form, Google Calendar, WhatsApp and email.
+- **Button labels (CR-003):** "Book a Strategy Call" (Google Calendar) and "Let's Chat" (WhatsApp, same icon, no word "WhatsApp" on the button). **No "free" on any button**; descriptions may say "free 30-minute strategy call". Floating chat button is monochrome dark grey.
 - **About page:** written from the **company's perspective**, with a short leadership section for the founder's credentials.
 - **Testimonials:** stored in `src/data/testimonials.ts` with `approved: false`. The section is hidden until at least one real, client-approved quote is set to `approved: true`.
 - **Policies:** Terms of Service, Privacy Policy, Refund Policy and Complaints Handling & Service Delivery come **word for word from the owner's "Policy and Guidelines" document** (`src/content/policies/`). Do not reword them. Only changes made: contact details are tokens (`{{EMAIL}}` etc.) so they match `site.ts`; the old 0336 number became the WhatsApp number; cross-references link to the other policy pages; and the Australia tax line was aligned with rule A6 (bookkeeping & advisory only).

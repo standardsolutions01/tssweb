@@ -3,16 +3,16 @@
 import { whatsappUrl } from '../config/site';
 import Icon from './Icon.astro';
 ---
-<a href={whatsappUrl} class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp (opens in a new tab)">
+<a href={whatsappUrl} class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Let's chat (opens WhatsApp in a new tab)">
   <Icon name="whatsapp" />
 </a>
 <style>
   .wa-float {
     position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 56px; height: 56px; border-radius: 50%;
-    background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 22px rgba(0,0,0,.18);
+    background: #2b2f36; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 22px rgba(0,0,0,.18);
     transition: transform .15s;
   }
-  .wa-float:hover { transform: scale(1.06); color: #fff; }
+  .wa-float:hover { transform: scale(1.06); color: #fff; background: #16191f; }
   .wa-float :global(svg) { width: 30px; height: 30px; }
   @media print { .wa-float { display: none; } }
 </style>

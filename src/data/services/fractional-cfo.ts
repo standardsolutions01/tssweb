@@ -26,7 +26,7 @@ const service: Service = {
     { title: 'Finance systems & process', text: 'Better workflows across Xero, QuickBooks, Zoho Books, Bill.com, Ramp and Stripe.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We discuss where you are, where you are going and what is in the way.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We discuss where you are, where you are going and what is in the way.' },
     { title: 'Diagnostic', text: 'A short review of your numbers, systems and reporting.' },
     { title: 'Proposal', text: 'A monthly retainer based on the days and scope you need.' },
     { title: 'Ongoing partnership', text: 'Regular reporting, reviews and a finance partner on call.' },

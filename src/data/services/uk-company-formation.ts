@@ -28,12 +28,12 @@ const service: Service = {
     { title: 'Post-incorporation handover', text: 'Certificate of incorporation, HMRC Corporation Tax registration guidance, key deadline calendar and banking guidance.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We confirm your goals, structure and the information we need.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We confirm your goals, structure and the information we need.' },
     { title: 'Proposal & advance', text: 'You receive a fixed quote. Work starts after the 60% advance.' },
     { title: 'Preparation & ID checks', text: 'We prepare documents and guide directors through verification.' },
     { title: 'Filing & handover', text: 'Our partner files with Companies House; you receive all documents and next steps.' },
   ],
-  pricingNote: 'Fixed one-time fee, quoted after a short consultation. Official government fees are passed on at cost.',
+  pricingNote: 'Fixed one-time fee, quoted after a short strategy call. Official government fees are passed on at cost.',
   faqs: [
     { q: 'Can I form a UK company if I live in Pakistan?', a: 'Yes. There is no UK residency or nationality requirement for directors or shareholders of a UK private limited company. You will need a UK registered office address, and each director and PSC must complete identity verification.' },
     { q: 'How long does UK company formation take?', a: 'Once identity verification is complete and documents are ready, Companies House often approves online applications within one working day. Preparation and verification can add a few days, so we suggest allowing about one to two weeks overall.' },

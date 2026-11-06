@@ -28,7 +28,7 @@ const service: Service = {
     { title: 'Clean-up & migration', text: 'Catch-up bookkeeping for past periods and migration between Xero, QuickBooks and Zoho Books.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We review your current set-up, volume and software.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We review your current set-up, volume and software.' },
     { title: 'Proposal', text: 'You receive a monthly fee based on scope and volume.' },
     { title: 'Onboarding', text: 'Secure access, chart of accounts review and any clean-up.' },
     { title: 'Monthly cycle', text: 'Books closed and reports sent on an agreed date each month.' },

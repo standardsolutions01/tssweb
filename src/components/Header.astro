@@ -30,7 +30,7 @@ const isActive = (href: string) => current === href || (href !== '/' && current.
           <li><a href={item.href} class:list={[{ active: isActive(item.href) }]}>{item.label}</a></li>
         ))}
       </ul>
-      <ExternalLink href={LINKS.booking} class="btn btn--primary btn--sm">Book a Free Consultation</ExternalLink>
+      <ExternalLink href={LINKS.booking} class="btn btn--primary btn--sm">Book a Strategy Call</ExternalLink>
     </nav>
 
     <details class="mobile-nav">
@@ -40,7 +40,7 @@ const isActive = (href: string) => current === href || (href !== '/' && current.
         <ul>{SERVICES.map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}</ul>
         <hr />
         <ul>{NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
-        <ExternalLink href={LINKS.booking} class="btn btn--primary">Book a Free Consultation</ExternalLink>
+        <ExternalLink href={LINKS.booking} class="btn btn--primary">Book a Strategy Call</ExternalLink>
       </nav>
     </details>
   </div>

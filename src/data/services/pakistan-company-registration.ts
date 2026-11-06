@@ -28,7 +28,7 @@ const service: Service = {
     { title: 'Compliance calendar', text: 'A simple calendar of annual SECP returns, tax filings and other recurring obligations.' },
   ],
   process: [
-    { title: 'Free consultation', text: 'We confirm the structure, directors and shareholders.' },
+    { title: 'Strategy call', text: 'A free 30-minute call. We confirm the structure, directors and shareholders.' },
     { title: 'Proposal & advance', text: 'Fixed quote; work starts after the 60% advance.' },
     { title: 'Name & incorporation', text: 'We reserve the name and file incorporation with SECP.' },
     { title: 'NTN & handover', text: 'We complete FBR registration and hand over all documents.' },

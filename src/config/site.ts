@@ -60,7 +60,7 @@ export const LEGAL = {
  * (see src/components/ExternalLink.astro).
  */
 export const LINKS = {
-  /** Google Calendar booking page — "Book a Free Consultation" buttons */
+  /** Google Calendar booking page — "Book a Strategy Call" buttons */
   booking: 'https://calendar.app.google/c4nvozuR6xpmG2p29',
   /** Google Form — "Send an Enquiry" / "Request a Quote" buttons */
   enquiryForm:
