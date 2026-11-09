@@ -16,6 +16,8 @@
 | **`CANCEL CR-###`** | That change is thrown away. Nothing goes live |
 | **`STATUS`** | Claude lists every change: waiting for you, live, or cancelled |
 | **`ROLLBACK`** | The last live change is undone |
+| **`PREVIEW LINK CR-###`** | (Optional) a public Cloudflare preview link, e.g. to view on another device. Uses that change's one extra upload |
+| **`SEND BACKUP`** | Claude sends a backup zip of the whole project in the chat |
 
 `CR-###` is the **Change ID**. **You don't need to remember it:** every time, Claude tells you the last ID and the new one, and `docs/CHANGELOG.md` lists them all (ID · date approved · one-line summary).
 ("shift to main" still works and means the same as `APPROVE` for the change being discussed.)
@@ -43,13 +45,14 @@ New wording: (exact text, if any — or "you suggest")
 |---|---|---|
 | 1 | **You** | Send `NEW CHANGE` using the template |
 | 2 | **Claude** | Replies with the **Change ID** and a plain-English list of exactly what will change (before → after), plus any compliance or security notes |
-| 3 | **Claude** | Makes the change on its **own branch** (`change/cr-###`), started from the live website. Your other pending changes are not included |
+| 3 | **Claude** | Makes the change **on its own machine** (branch `change/cr-###`, started from the live website). Nothing is uploaded to GitHub yet |
 | 4 | **Automatic checks** | Wording rules (no "Chartered" etc.), broken links, page titles, security rules. If any check fails, Claude fixes it before showing you |
-| 5 | **Claude** | Sends you a **preview link** to click: `https://change-cr-###.tssweb.pages.dev` (Cloudflare preview), and, while the chat is open, a preview inside the Claude app with the live site next to it for comparison |
+| 5 | **Claude** | Sends you a **preview link inside the Claude app** (new version, with the current live site next to it for comparison). For a public link, reply `PREVIEW LINK CR-###` |
 | 6 | **You** | Check it on phone and laptop. Reply **`APPROVE CR-###`**, **`REVISE CR-###: …`** or **`CANCEL CR-###`** |
-| 7 | **Claude** | Opens a pull request named after the Change ID. GitHub's required `build` check must pass (the `protect-main` ruleset enforces this) and Claude merges it |
+| 7 | **Claude** | Adds the change-log line, makes **one upload**, and opens a pull request named after the Change ID |
+| 7b | **You** | When GitHub shows the green ✓ `build` check, click **Squash and merge** → **Confirm** on the pull request page (Claude sends the link) |
 | 8 | **Cloudflare** | Publishes the live website in about 2 minutes |
-| 9 | **Claude** | Confirms **"CR-### is LIVE"** and adds one line to `docs/CHANGELOG.md` |
+| 9 | **Claude** | Confirms **"CR-### is LIVE"** and sends you a **backup zip** |
 | 10 | **You** | Glance at the live page. If anything is wrong: **`ROLLBACK`** (or use Cloudflare's instant rollback — `docs/DEPLOYMENT.md` Part 5) |
 
 **Without `APPROVE CR-###` from you, nothing reaches the live website. Ever.**
@@ -79,10 +82,10 @@ This is a standard **maker–checker** control: Claude makes the change, you che
 
 1. Read this file and `CLAUDE.md` before any change.
 2. On `NEW CHANGE`: take the next free Change ID from `docs/CHANGELOG.md` and tell the owner "Last change: CR-### · This change: CR-###".
-3. Create a branch from the **latest `main`** named exactly `change/cr-###` (short, so the Cloudflare preview address is predictable). Never mix two Change IDs on one branch.
-4. Make the change, run `npm run build` (all checks must pass), and send a before → after table plus the preview link(s). No screenshots unless asked.
+3. Create a **local** branch from the **latest `main`** named exactly `change/cr-###`. Never mix two Change IDs on one branch. **Follow `docs/GITHUB-SAFETY.md`** (upload limits, no retries, owner merges).
+4. Make the change, run `npm run build` (all checks must pass), serve the built site locally and send the in-app preview link (new + live side by side) with a before → after table. Do not upload for review unless the owner sends `PREVIEW LINK CR-###`.
 5. On `REVISE`: update the same branch and re-send.
-6. On `APPROVE CR-###` (from the owner, in the session): add the one-line CHANGELOG row (`| CR-### | <date> | <summary> |`) on the same branch, open a pull request titled `CR-###: <summary>` into `main`, wait for the `build` check, merge, confirm live. GitHub then **deletes the branch automatically** (setting in `docs/DEPLOYMENT.md` 6c); the pull request keeps the full record and has a "Restore branch" button.
+6. On `APPROVE CR-###` (from the owner, in the session): add the one-line CHANGELOG row (`| CR-### | <date> | <summary> |`), make **one upload**, open a pull request titled `CR-###: <summary>` into `main`, send the owner its link, and ask them to click **Squash and merge** once the `build` check is green. After the owner merges, confirm live and send a backup zip. GitHub deletes the branch automatically (`docs/DEPLOYMENT.md` 6c).
 7. On `CANCEL CR-###`: add `| CR-### | Cancelled | <summary> |` to the CHANGELOG with the next approved change; do not merge the branch. Keep its work as a branch named `archive/cr-###`; the owner can delete it on GitHub (Branches page → 🗑️) if it is never needed. Claude's environment can create branches but cannot delete branches or create tags.
 
 > **Branch list rule:** at any time GitHub should show only `main` plus the change branches still waiting for approval (and any open Dependabot updates). Branches are only labels — Git stores changes, not copies — so any number of Change IDs costs no extra space.

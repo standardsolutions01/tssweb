@@ -1,10 +1,13 @@
-# Builds the site and runs the safety checks on every push and pull request.
+# Builds the site and runs the safety checks on pull requests into main and on main itself
+# (not on every upload — see docs/GITHUB-SAFETY.md).
 # A red ❌ on GitHub means something needs fixing before merging to main.
 name: build
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 # Least privilege: this job can only read the code.
 permissions:
