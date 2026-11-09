@@ -186,6 +186,12 @@ Click **Create**. If you ever change the default branch away from `main`, change
 
 ---
 
+### 6c. Tidy branches automatically (one time)
+GitHub → tssweb → **Settings → General** → scroll to **Pull Requests** → tick **Automatically delete head branches**.
+After a change goes live, its `change/cr-###` branch disappears from the list on its own. The record stays in the pull request (with a **Restore branch** button) and in `docs/CHANGELOG.md`.
+
+---
+
 ## Part 7 — Ongoing upkeep (a few minutes a month)
 
 | What | Where | Action |
