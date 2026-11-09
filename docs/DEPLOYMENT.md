@@ -190,6 +190,8 @@ Click **Create**. If you ever change the default branch away from `main`, change
 GitHub → tssweb → **Settings → General** → scroll to **Pull Requests** → tick **Automatically delete head branches**.
 After a change goes live, its `change/cr-###` branch disappears from the list on its own. The record stays in the pull request (with a **Restore branch** button) and in `docs/CHANGELOG.md`.
 
+To delete an old branch by hand: GitHub → tssweb → **Branches** (or **View all branches**) → 🗑️ next to the branch. Never delete `main`.
+
 ---
 
 ## Part 7 — Ongoing upkeep (a few minutes a month)
