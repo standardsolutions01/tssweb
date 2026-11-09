@@ -191,6 +191,46 @@ Click **Create**. If you ever change the default branch away from `main`, change
 | What | Where | Action |
 |---|---|---|
 | **Dependabot updates** | GitHub → tssweb → **Pull requests** | Safe tool/security updates. When the `build` check is green, tell Claude **"merge the Dependabot updates"** |
-| **Search performance** | Google Search Console → Performance / Pages | Look for errors; send screenshots to Claude if unsure |
+| **Search Console** | Google Search Console → Indexing → Pages | Follow **Part 8**; send screenshots to Claude |
 | **Domain renewal** | Wherever the domain was bought (or Cloudflare Registrar) | **Auto-renew ON** |
 | **Account security** | GitHub, Cloudflare, Google | Review who has access; remove anyone who no longer needs it |
+
+---
+
+## Part 8 — Google Search Console: reading the "Page indexing" report
+
+### 8a. What each message means
+
+| Search Console says | What it means | What to do |
+|---|---|---|
+| **Page with redirect** (`http://…`, `www.…`) | Those addresses forward to the main address `https://thestandardsolutions.com/` | **Nothing** — this is correct |
+| **Not found (404)** on `/cdn-cgi/l/email-protection` | Cloudflare's *Email Address Obfuscation* rewrites email links into a hidden link that Google can't open | Turn it **off** (8c), then **Validate fix** |
+| **Crawled – currently not indexed** | Google read the page but hasn't added it yet. Common for new websites | **Request indexing** (8d) and wait 1–3 weeks |
+| **Discovered – currently not indexed** | Google knows the page but hasn't read it yet | Wait; request indexing for important pages |
+| **Alternate page with proper canonical tag** / **Duplicate…** | Another address is the main version | Usually nothing |
+| **Excluded by 'noindex' tag** | We asked Google not to list it (e.g. the 404 page, preview copies) | Nothing for 404/previews; otherwise send to Claude |
+| **Server error (5xx)**, **Soft 404**, **Blocked by robots.txt**, **Redirect error** | A real problem | Screenshot → send to Claude → fixed as a `CR-###` |
+
+### 8b. The routine (monthly, or when Google emails you)
+
+1. Search Console → **Indexing → Pages** → scroll to **"Why pages aren't indexed"**.
+2. Screenshot anything listed and send it to Claude (no keyword needed).
+3. Claude sorts each item into: ✅ **normal** (no action) · ⚙️ **a setting you click** (Claude gives the steps) · 🛠️ **a website fix** (becomes a `CR-###` and follows `docs/CHANGE-REQUESTS.md`).
+4. When the fix is done: open that item in Search Console → **Validate fix**. Google re-checks within days to a few weeks.
+
+### 8c. Turn off Cloudflare Email Address Obfuscation
+
+Our email address is meant to be public, so this feature isn't needed — and it creates a broken link for Google.
+
+1. Cloudflare → click the domain **thestandardsolutions.com**.
+2. Click the **search bar** at the top (or press `Ctrl+K`) → type **Email Address Obfuscation** → open it.
+   - Older menus: **Scrape Shield → Email Address Obfuscation**. Newer menus: **Security → Settings** (look in the list).
+3. Switch it **Off**.
+4. Search Console → **Indexing → Pages → Not found (404)** → **Validate fix**.
+
+### 8d. Ask Google to (re)read a page
+
+Use after a page first launches, or after an approved `CR-###` changes a page's content.
+1. Search Console → **URL Inspection** bar at the top → paste the page address (e.g. `https://thestandardsolutions.com/`) → Enter.
+2. Click **Test live URL** → check **Page fetch: Successful**.
+3. Click **Request indexing**. (Limit: a handful of pages per day; the sitemap covers the rest automatically.)
